@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — Hilltop Visuals | Graphic Design & Web Development Work</title>
+  <meta name="description" content="Browse the creative portfolio of Hilltop Visuals — featuring graphic design, brand identity, web development, UI/UX, print design, and social media graphics projects from Lokoja, Nigeria.">
+  <meta name="author" content="Enoch Emmanuel — Hilltop Visuals">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://hilltop-visuals.web.app/portfolio.html">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hilltop-visuals.web.app/portfolio.html">
+  <meta property="og:title" content="Portfolio — Hilltop Visuals | Graphic Design & Web Work">
+  <meta property="og:description" content="A curated collection of graphic design, brand identity, and web development projects by Hilltop Visuals, based in Lokoja, Nigeria.">
+  <meta property="og:image" content="https://i.ibb.co/S7ySnwGp/1000374897.jpg">
+  <meta property="og:site_name" content="Hilltop Visuals">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="Logo.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .port-hero {
+      padding: 140px 6% 70px; background: var(--cream);
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .port-hero::before {
+      content: "WORK"; position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(6rem,18vw,14rem); font-weight: 900;
+      color: #E8EEFF; pointer-events: none; user-select: none;
+    }
+    .port-hero > * { position: relative; z-index: 1; }
+    .port-hero h1 { margin-bottom: 14px; }
+    .port-hero p { color: var(--mid); max-width: 500px; margin: 0 auto 40px; }
+
+    .filter-bar { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 0; }
+    .filter-btn {
+      background: var(--white); border: 1.5px solid var(--border);
+      color: var(--mid); padding: 10px 22px; border-radius: 50px;
+      font-size: 0.88rem; font-weight: 500; cursor: pointer;
+      transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--accent); border-color: var(--accent); color: var(--white);
+    }
+
+    .port-section { padding: 60px 6% 100px; background: var(--white); }
+    .port-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 28px; max-width: 1200px; margin: 0 auto;
+    }
+    .p-card {
+      border: 1px solid var(--border); border-radius: 20px;
+      overflow: hidden; background: var(--white); transition: all 0.3s;
+    }
+    .p-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--accent); }
+    .p-img { position: relative; aspect-ratio: 4/3; overflow: hidden; background: var(--cream); }
+    .p-img img { width:100%;height:100%;object-fit:cover;transition:transform 0.4s; display:block; }
+    .p-card:hover .p-img img { transform: scale(1.06); }
+    .p-no-img { width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:2.5rem;color:var(--border); }
+    .p-overlay { position:absolute;inset:0;background:rgba(12,15,26,0.72);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s; }
+    .p-card:hover .p-overlay { opacity:1; }
+    .p-view-btn { background:var(--white);color:var(--ink);padding:12px 24px;border-radius:50px;font-weight:600;font-size:0.88rem;transition:all 0.2s; }
+    .p-view-btn:hover { background:var(--accent);color:var(--white); }
+    .p-info { padding: 20px 22px 24px; }
+    .p-cat { font-size:0.7rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:6px; }
+    .p-info h3 { margin-bottom: 8px; font-size: 1.05rem; }
+    .p-info p { font-size: 0.86rem; color: var(--mid); line-height: 1.55; }
+
+    .empty-state { grid-column:1/-1;text-align:center;padding:80px 40px;background:var(--cream);border-radius:20px;border:2px dashed var(--border); }
+    .empty-state h3 { margin-bottom: 10px; }
+    .empty-state p { color: var(--mid); }
+
+    .loader-wrap { grid-column:1/-1;text-align:center;padding:60px; }
+    .spinner { width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 16px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .conn-error {
+      grid-column: 1/-1; text-align: center; padding: 70px 40px;
+      background: var(--cream); border-radius: 20px; border: 2px dashed #e0c4c4;
+    }
+    .conn-error-icon { font-size: 2.6rem; margin-bottom: 16px; }
+    .conn-error h3 { margin-bottom: 10px; color: var(--ink); }
+    .conn-error p { color: var(--mid); max-width: 400px; margin: 0 auto 24px; line-height: 1.6; font-size: 0.93rem; }
+    .conn-reload-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: var(--white);
+      padding: 12px 28px; border-radius: 50px; font-weight: 600;
+      font-size: 0.9rem; border: none; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; transition: opacity 0.2s;
+    }
+    .conn-reload-btn:hover { opacity: 0.85; }
+    .retry-note { font-size: 0.78rem; color: var(--mid); margin-top: 12px; }
+
+    @media (max-width:900px) { .port-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width:600px) { .port-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav id="navbar" class="scrolled">
+    <a href="index.html" class="nav-logo">Hilltop <em>Visuals</em></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="index.html#about">About</a></li>
+      <li><a href="index.html#skills">Skills</a></li>
+      <li><a href="portfolio.html" style="color:var(--accent);">Portfolio</a></li>
+      <li><a href="index.html#contact" class="nav-cta">Contact Me</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="port-hero">
+    <p class="eyebrow">My Creative Work</p>
+    <h1>The <em>Portfolio</em></h1>
+    <p>A curated collection of graphic design and web development projects.</p>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterProjects(this,'all')">All Projects</button>
+      <button class="filter-btn" onclick="filterProjects(this,'Graphic Design')">Graphic Design</button>
+      <button class="filter-btn" onclick="filterProjects(this,'Web Design')">Web Design</button>
+      <button class="filter-btn" onclick="filterProjects(this,'Brand Identity')">Brand Identity</button>
+      <button class="filter-btn" onclick="filterProjects(this,'Social Media')">Social Media</button>
+    </div>
+  </div>
+
+  <section class="port-section">
+    <div class="port-grid" id="portGrid">
+      <div class="loader-wrap">
+        <div class="spinner"></div>
+        <p style="color:var(--mid);">Loading projects...</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-band">
+    <div class="cta-band-inner">
+      <h2>Like what you see?<br><em>Let's work together. 🤝</em></h2>
+      <p>Ready to bring your ideas to life. Let's create something you'll be proud of.</p>
+      <a href="index.html#contact" class="btn-white">Start a Project →</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-logo">Hilltop <em>Visuals</em></div>
+      <p class="footer-tagline">Graphic Design · Web Development · Brand Identity</p>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="portfolio.html">Portfolio</a>
+        <a href="index.html#faq">FAQ</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="footer-socials">
+        <a href="https://wa.me/+2347012182419" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+        <a href="https://instagram.com/_hilltopvisuals" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://tiktok.com/@hilltop.visuals" target="_blank" rel="noopener noreferrer">TikTok</a>
+        <a href="https://www.facebook.com/share/1C88Tai5y7/" target="_blank" rel="noopener noreferrer">Facebook</a>
+      </div>
+      <p class="footer-copy">© <span id="copyrightYear"></span> Hilltop Visuals, Lokoja, Kogi State, Nigeria. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { initializeApp }    from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy, onSnapshot }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD2cEISpqe9ZQfjU7KUvEmC07CHFr-ecbo",
+      authDomain: "hilltop-visuals.firebaseapp.com",
+      projectId: "hilltop-visuals",
+      storageBucket: "hilltop-visuals.firebasestorage.app",
+      messagingSenderId: "5059891736",
+      appId: "1:5059891736:web:ab7138aefc7ed4dfd4296d"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getFirestore(app);
+
+    let allProjects = [];
+    let activeFilter = 'all';
+    const grid = document.getElementById('portGrid');
+
+    // ── Retry config ──────────────────────────────────────────
+    const MAX_AUTO_RETRIES = 3;   // auto-retries before showing error UI
+    const RETRY_DELAY_MS   = 3500; // gap between each auto-retry
+    let   retryCount       = 0;
+    let   retryTimer       = null;
+
+    function showLoader(msg) {
+      grid.innerHTML = `
+        <div class="loader-wrap">
+          <div class="spinner"></div>
+          <p style="color:var(--mid);">${msg}</p>
+        </div>`;
+    }
+
+    function showConnectionError() {
+      grid.innerHTML = `
+        <div class="conn-error">
+          <div class="conn-error-icon">📡</div>
+          <h3>Connection Unstable</h3>
+          <p>Projects couldn't load due to a weak or lost internet connection. Please ensure you have a stable connection, then tap reload.</p>
+          <button class="conn-reload-btn" onclick="window.__hvReload()">↺ &nbsp;Reload Projects</button>
+          <p class="retry-note">If the problem persists, check your network settings and try again.</p>
+        </div>`;
+    }
+
+    function attemptLoad() {
+      if (retryCount === 0) {
+        showLoader('Loading projects...');
+      } else {
+        showLoader(`Retrying… (${retryCount}/${MAX_AUTO_RETRIES})`);
+      }
+      loadUnordered();
+    }
+
+    function scheduleRetry() {
+      if (retryCount < MAX_AUTO_RETRIES) {
+        retryCount++;
+        retryTimer = setTimeout(attemptLoad, RETRY_DELAY_MS);
+      } else {
+        showConnectionError();
+      }
+    }
+
+    // Exposed so the inline reload button can call it
+    window.__hvReload = function() {
+      retryCount = 0;
+      clearTimeout(retryTimer);
+      attemptLoad();
+    };
+
+    // ── Try ordered snapshot first; fall back to unordered ──
+    function startListener() {
+      try {
+        const unsubscribe = onSnapshot(
+          query(collection(db,'projects'), orderBy('createdAt','desc')),
+          snap => {
+            retryCount = 0;
+            clearTimeout(retryTimer);
+            allProjects = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderProjects();
+          },
+          err => {
+            console.warn('Ordered snapshot failed, falling back:', err.message);
+            loadUnordered();
+          }
+        );
+      } catch(e) {
+        loadUnordered();
+      }
+    }
+
+    async function loadUnordered() {
+      try {
+        const snap = await getDocs(collection(db,'projects'));
+        retryCount = 0;
+        clearTimeout(retryTimer);
+        allProjects = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        allProjects.sort((a,b) => {
+          const ta = a.createdAt?.seconds || 0;
+          const tb = b.createdAt?.seconds || 0;
+          return tb - ta;
+        });
+        renderProjects();
+      } catch(e) {
+        console.warn('Firebase load error (attempt ' + (retryCount + 1) + '):', e.message);
+        scheduleRetry();
+      }
+    }
+
+    // Kick off — try the live snapshot first; if it fails loadUnordered handles retries
+    showLoader('Loading projects...');
+    startListener();
+
+    function renderProjects() {
+      const filtered = activeFilter === 'all'
+        ? allProjects
+        : allProjects.filter(p => p.category === activeFilter);
+
+      if (!filtered.length) {
+        grid.innerHTML = `
+          <div class="empty-state">
+            <h3>No projects found</h3>
+            <p>${activeFilter === 'all' ? 'Projects will appear here once added from the admin dashboard.' : 'No projects in this category yet.'}</p>
+          </div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map((p, i) => `
+        <div class="p-card reveal" style="transition-delay:${i * 0.06}s">
+          <div class="p-img">
+            ${p.image
+              ? `<img src="${p.image}" alt="${escHtml(p.title)}" loading="lazy">`
+              : `<div class="p-no-img">✦</div>`}
+            <div class="p-overlay">
+              <a href="${p.link || '#'}" ${p.link ? 'target="_blank"' : ''} class="p-view-btn">View Project ↗</a>
+            </div>
+          </div>
+          <div class="p-info">
+            <span class="p-cat">${p.category || 'Design'}</span>
+            <h3>${escHtml(p.title)}</h3>
+            ${p.description ? `<p>${escHtml(p.description).substring(0,100)}${p.description.length > 100 ? '...' : ''}</p>` : ''}
+          </div>
+        </div>
+      `).join('');
+
+      // Attach intersection observer for reveal
+      requestAnimationFrame(() => {
+        const obs = new IntersectionObserver(entries => {
+          entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+        }, { threshold: 0.08 });
+        grid.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+      });
+    }
+
+    window.filterProjects = function(btn, cat) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = cat;
+      renderProjects();
+    };
+
+    function escHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+
+  <script>
+    document.getElementById('copyrightYear').textContent = new Date().getFullYear();
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+    });
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+  </script>
+</body>
+</html>

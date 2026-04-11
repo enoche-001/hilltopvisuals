@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — Hilltop Visuals</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #0C0F1A; --ink-mid: #1E2535; --mid: #64748B;
+      --light: #F0F4FF; --white: #FAFBFF;
+      --accent: #2563EB; --accent-dark: #1D4ED8; --accent-light: #EFF6FF;
+      --green: #059669; --red: #DC2626; --amber: #D97706;
+      --border: #E2E8F0; --cream: #F5F7FF;
+      --sidebar-w: 240px; --topbar-h: 64px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--light); color: var(--ink); overflow-x: hidden; }
+    em { font-family: 'Playfair Display', serif; font-style: italic; color: var(--accent); }
+    a { text-decoration: none; color: inherit; }
+    input, textarea, select, button { font-family: 'DM Sans', sans-serif; }
+
+    /* ───────── LOGIN ───────── */
+    #loginPage {
+      position: fixed; inset: 0; z-index: 999;
+      background: var(--cream); display: flex; align-items: center; justify-content: center;
+    }
+    .login-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: 24px; padding: 48px 40px; width: 100%; max-width: 420px;
+      box-shadow: 0 8px 48px rgba(37,99,235,0.1); text-align: center;
+    }
+    .login-logo { font-family: 'Playfair Display', serif; font-size: 1.7rem; font-weight: 700; margin-bottom: 8px; color: var(--ink); }
+    .login-logo em { color: var(--accent); }
+    .login-card > p { font-size: 0.9rem; color: var(--mid); margin-bottom: 32px; }
+    .login-card input {
+      width: 100%; padding: 13px 16px; border: 1.5px solid var(--border);
+      border-radius: 12px; font-size: 0.95rem; color: var(--ink);
+      background: var(--white); outline: none; margin-bottom: 14px;
+      transition: border-color 0.2s;
+    }
+    .login-card input:focus { border-color: var(--accent); }
+    .login-btn {
+      width: 100%; padding: 14px; border-radius: 50px;
+      background: var(--accent); color: var(--white); border: none;
+      font-size: 1rem; font-weight: 700; cursor: pointer; transition: background 0.2s;
+    }
+    .login-btn:hover { background: var(--accent-dark); }
+    .login-err { display: none; color: var(--red); font-size: 0.85rem; margin-top: 12px; font-weight: 500; }
+
+    /* ───────── DASHBOARD ───────── */
+    #dashboard { display: none; min-height: 100vh; }
+
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+      background: var(--ink); z-index: 100; display: flex; flex-direction: column; padding: 28px 0;
+    }
+    .sidebar-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--white); padding: 0 22px 28px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-logo em { color: #93C5FD; }
+    .sidebar-nav { flex: 1; padding: 20px 0; }
+    .s-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 22px; font-size: 0.9rem; font-weight: 500;
+      color: rgba(255,255,255,0.55); cursor: pointer; transition: all 0.2s;
+      border-left: 3px solid transparent;
+    }
+    .s-item:hover { color: var(--white); background: rgba(255,255,255,0.05); }
+    .s-item.active { color: var(--white); background: rgba(37,99,235,0.18); border-left-color: #60A5FA; }
+    .s-badge { margin-left: auto; background: var(--red); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px 7px; border-radius: 50px; min-width: 20px; text-align: center; }
+    .s-logout { padding: 14px 22px; color: rgba(255,255,255,0.35); font-size: 0.85rem; cursor: pointer; transition: color 0.2s; border-top: 1px solid rgba(255,255,255,0.08); margin-top: 8px; }
+    .s-logout:hover { color: #FCA5A5; }
+
+    .topbar {
+      position: fixed; top: 0; left: var(--sidebar-w); right: 0;
+      height: var(--topbar-h); background: var(--white);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 32px; z-index: 99;
+    }
+    .topbar-title { font-size: 1rem; font-weight: 700; color: var(--ink); }
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .admin-email { font-size: 0.85rem; color: var(--mid); }
+    .logout-btn {
+      background: none; border: 1.5px solid var(--border);
+      color: var(--mid); padding: 7px 16px; border-radius: 50px;
+      font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
+    }
+    .logout-btn:hover { background: #FEF2F2; color: var(--red); border-color: #FECACA; }
+
+    .scroll-body { margin-left: var(--sidebar-w); margin-top: var(--topbar-h); padding: 36px 36px 80px; min-height: calc(100vh - var(--topbar-h)); }
+
+    .panel { display: none; }
+    .panel.active { display: block; }
+    .panel-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; margin-bottom: 4px; }
+    .panel-sub { color: var(--mid); font-size: 0.9rem; margin-bottom: 32px; }
+
+    /* STATS */
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 18px; margin-bottom: 32px; }
+    .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 22px 20px; }
+    .stat-lbl { font-size: 0.76rem; color: var(--mid); font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px; }
+    .stat-val { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 700; color: var(--ink); }
+    .stat-val.blue { color: var(--accent); }
+    .stat-val.green { color: var(--green); }
+    .stat-val.red { color: var(--red); }
+
+    /* QUICK LINKS */
+    .quick-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .quick-card {
+      cursor: pointer; background: var(--white); border: 1px solid var(--border);
+      border-radius: 14px; padding: 24px; text-align: center; transition: all 0.2s;
+    }
+    .quick-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(37,99,235,0.1); transform: translateY(-2px); }
+    .quick-icon { font-size: 0.9rem; font-weight: 700; color: var(--accent); letter-spacing: 1px; margin-bottom: 10px; display: block; }
+    .quick-label { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+
+    /* PROJECTS */
+    .panel-toprow { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .add-btn { background: var(--accent); color: var(--white); padding: 12px 24px; border-radius: 50px; border: none; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    .add-btn:hover { background: var(--accent-dark); }
+
+    .proj-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .proj-card { background: var(--white); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+    .proj-img { aspect-ratio: 4/3; overflow: hidden; background: var(--cream); display: flex; align-items: center; justify-content: center; color: var(--border); font-size: 2rem; }
+    .proj-img img { width:100%;height:100%;object-fit:cover; }
+    .proj-body { padding: 16px; }
+    .proj-cat { font-size: 0.7rem; font-weight: 600; letter-spacing: 1px; color: var(--accent); text-transform: uppercase; margin-bottom: 4px; }
+    .proj-name { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+    .proj-link { font-size: 0.78rem; color: var(--mid); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; display: block; margin-bottom: 14px; }
+    .proj-actions { display: flex; gap: 8px; }
+    .p-edit-btn, .p-del-btn { flex:1;padding:8px;border-radius:8px;border:none;font-size:0.82rem;font-weight:600;cursor:pointer;transition:all 0.2s; }
+    .p-edit-btn { background:var(--cream);color:var(--ink);border:1px solid var(--border); }
+    .p-edit-btn:hover { background:var(--accent);color:#fff; }
+    .p-del-btn { background:#FEF2F2;color:var(--red);border:1px solid #FECACA; }
+    .p-del-btn:hover { background:var(--red);color:#fff; }
+
+    /* MESSAGES */
+    .msg-filters { display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap; }
+    .m-pill { background:var(--white);border:1.5px solid var(--border);color:var(--mid);padding:8px 18px;border-radius:50px;font-size:0.82rem;font-weight:500;cursor:pointer;transition:all 0.2s; }
+    .m-pill.active,.m-pill:hover { background:var(--accent);border-color:var(--accent);color:#fff; }
+    .messages-list { display:flex;flex-direction:column;gap:14px; }
+    .msg-card { background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px 22px;transition:box-shadow 0.2s; }
+    .msg-card.unread { border-left:3px solid var(--accent);background:#FAFCFF; }
+    .msg-card:hover { box-shadow:0 4px 20px rgba(0,0,0,0.07); }
+    .msg-top { display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px; }
+    .msg-name { font-weight:700;font-size:1rem; }
+    .msg-time { font-size:0.78rem;color:var(--mid); }
+    .msg-meta { font-size:0.83rem;color:var(--mid);margin-bottom:8px; }
+    .msg-meta span { margin-right:16px; }
+    .msg-service { display:inline-block;background:var(--accent-light);border:1px solid #BFDBFE;font-size:0.72rem;font-weight:600;padding:3px 10px;border-radius:50px;color:var(--accent);margin-bottom:10px; }
+    .msg-text { font-size:0.9rem;color:var(--ink-mid);line-height:1.6; }
+    .msg-actions { display:flex;gap:8px;margin-top:14px;flex-wrap:wrap; }
+    .msg-wa-btn,.msg-mark-btn,.msg-del-btn { padding:7px 14px;border-radius:8px;border:none;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.2s; }
+    .msg-wa-btn { background:#ECFDF5;color:var(--green);border:1px solid #A7F3D0; }
+    .msg-wa-btn:hover { background:var(--green);color:#fff; }
+    .msg-mark-btn { background:var(--cream);color:var(--ink);border:1px solid var(--border); }
+    .msg-mark-btn:hover { background:var(--ink);color:#fff; }
+    .msg-del-btn { background:#FEF2F2;color:var(--red);border:1px solid #FECACA; }
+    .msg-del-btn:hover { background:var(--red);color:#fff; }
+    .unread-dot { width:7px;height:7px;background:var(--accent);border-radius:50%;display:inline-block;margin-right:6px; }
+
+    /* NO DATA */
+    .no-data { text-align:center;padding:60px;color:var(--mid);background:var(--white);border:2px dashed var(--border);border-radius:16px;font-size:0.95rem; }
+    .no-data-icon { font-size:2rem;display:block;margin-bottom:10px;color:var(--border); }
+
+    /* ───────── MODALS SHARED ───────── */
+    .overlay {
+      position:fixed;inset:0;background:rgba(12,15,26,0.55);z-index:500;
+      display:none;align-items:center;justify-content:center;
+      padding:20px;backdrop-filter:blur(4px);
+    }
+    .overlay.open { display:flex; }
+    .modal-box {
+      background:var(--white);border-radius:24px;padding:36px;
+      width:100%;max-width:560px;max-height:90vh;overflow-y:auto;
+    }
+    .modal-box h3 { font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:24px; }
+    .m-group { margin-bottom:16px; }
+    .m-group label { display:block;font-size:0.78rem;font-weight:700;color:var(--ink-mid);margin-bottom:6px; }
+    .m-group input,.m-group textarea,.m-group select { width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:0.93rem;color:var(--ink);outline:none;transition:border-color 0.2s; }
+    .m-group input:focus,.m-group textarea:focus,.m-group select:focus { border-color:var(--accent); }
+    .m-group textarea { resize:vertical;min-height:90px; }
+    .m-row { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+    .modal-foot { display:flex;gap:12px;justify-content:flex-end;margin-top:24px; }
+    .m-cancel,.m-save { padding:12px 28px;border-radius:50px;border:none;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.2s; }
+    .m-cancel { background:var(--cream);color:var(--mid);border:1.5px solid var(--border); }
+    .m-cancel:hover { background:var(--border); }
+    .m-save { background:var(--accent);color:#fff; }
+    .m-save:hover { background:var(--accent-dark); }
+    .m-save:disabled { opacity:0.6;cursor:not-allowed; }
+
+    /* Image upload */
+    .img-upload-label { display:flex;align-items:center;gap:10px;padding:13px 16px;border:2px dashed var(--border);border-radius:10px;cursor:pointer;color:var(--mid);font-size:0.88rem;transition:border-color 0.2s; }
+    .img-upload-label:hover { border-color:var(--accent); }
+    #imgPreview { display:none;width:100%;max-height:180px;object-fit:cover;border-radius:10px;margin-top:10px; }
+
+    /* ───────── CONFIRM MODAL (delete / logout) ───────── */
+    .confirm-modal-box {
+      background:var(--white);border-radius:20px;padding:36px;
+      width:100%;max-width:400px;text-align:center;
+    }
+    .confirm-icon { font-size:2rem;margin-bottom:12px;display:block;letter-spacing:1px; }
+    .confirm-modal-box h3 { font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:8px; }
+    .confirm-modal-box p { font-size:0.9rem;color:var(--mid);margin-bottom:20px; }
+    .confirm-modal-box input {
+      width:100%;padding:12px 14px;border:1.5px solid var(--border);
+      border-radius:10px;font-size:0.93rem;outline:none;margin-bottom:10px;
+      transition:border-color 0.2s;text-align:center;letter-spacing:2px;
+    }
+    .confirm-modal-box input:focus { border-color:var(--accent); }
+    .confirm-err { color:var(--red);font-size:0.82rem;margin-bottom:12px;display:none; }
+    .confirm-foot { display:flex;gap:10px;justify-content:center; }
+    .conf-cancel,.conf-ok { padding:11px 26px;border-radius:50px;border:none;font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.2s; }
+    .conf-cancel { background:var(--cream);color:var(--mid);border:1.5px solid var(--border); }
+    .conf-cancel:hover { background:var(--border); }
+    .conf-ok { background:var(--red);color:#fff; }
+    .conf-ok:hover { background:#B91C1C; }
+    .conf-ok.blue { background:var(--accent); }
+    .conf-ok.blue:hover { background:var(--accent-dark); }
+
+    /* STATUS BAR */
+    #statusBar {
+      position:fixed;top:0;left:0;right:0;z-index:9999;
+      padding:9px 16px;text-align:center;font-size:0.82rem;font-weight:600;
+      transition:transform 0.35s ease,opacity 0.35s ease;
+      transform:translateY(-100%);opacity:0;pointer-events:none;
+    }
+    #statusBar.show { transform:translateY(0);opacity:1; }
+    #statusBar.warn { background:#FEF3C7;color:#92400E; }
+    #statusBar.ok   { background:#ECFDF5;color:#065F46; }
+
+    /* RETRY BANNER (inside panel, replaces no-data when load fails) */
+    .retry-banner {
+      grid-column:1/-1;text-align:center;padding:60px 30px;
+      background:var(--white);border:2px dashed #FECACA;border-radius:16px;
+    }
+    .retry-banner-icon { font-size:2rem;margin-bottom:12px; }
+    .retry-banner h4 { font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:8px; }
+    .retry-banner p { font-size:0.87rem;color:var(--mid);max-width:380px;margin:0 auto 20px;line-height:1.6; }
+    .retry-banner-btn {
+      background:var(--accent);color:#fff;border:none;
+      padding:11px 26px;border-radius:50px;font-weight:700;
+      font-size:0.87rem;cursor:pointer;font-family:'DM Sans',sans-serif;
+      transition:background 0.2s;
+    }
+    .retry-banner-btn:hover { background:var(--accent-dark); }
+    .retry-note-sm { font-size:0.76rem;color:var(--mid);margin-top:10px; }
+
+    /* TOAST */
+    #toast {
+      position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+      background:var(--ink);color:#fff;padding:12px 24px;border-radius:50px;
+      font-size:0.88rem;font-weight:600;z-index:600;transition:transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      white-space:nowrap;box-shadow:0 4px 24px rgba(0,0,0,0.18);pointer-events:none;
+    }
+    #toast.show { transform:translateX(-50%) translateY(0); }
+
+    /* BOTTOM NAV */
+    .bottom-nav { display:none;position:fixed;bottom:0;left:0;right:0;height:60px;background:var(--white);border-top:1px solid var(--border);z-index:200;justify-content:space-around;align-items:center; }
+    .bnav-item { background:none;border:none;display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--mid);font-size:0.7rem;font-weight:600;cursor:pointer;flex:1;padding:8px;transition:color 0.2s; }
+    .bnav-item .bicon { font-size:0.8rem;font-weight:700;letter-spacing:0.5px; }
+    .bnav-item.active { color:var(--accent); }
+
+    /* RESPONSIVE */
+    @media (max-width:1024px) { .stats-grid { grid-template-columns:repeat(2,1fr); } .proj-cards { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:768px) {
+      .sidebar { display:none; } .topbar { left:0; }
+      .scroll-body { margin-left:0;padding:24px 16px 80px; }
+      .stats-grid { grid-template-columns:repeat(2,1fr); }
+      .proj-cards { grid-template-columns:1fr; }
+      .quick-grid { grid-template-columns:repeat(3,1fr); }
+      .bottom-nav { display:flex; }
+      .modal-box { padding:24px 20px; }
+    }
+    @media (max-width:480px) { .m-row { grid-template-columns:1fr; } .quick-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN -->
+  <div id="loginPage">
+    <div class="login-card">
+      <div class="login-logo">Hilltop <em>Visuals</em></div>
+      <p>Admin Panel — Sign in to continue</p>
+      <input type="email" id="lEmail" placeholder="Email address">
+      <input type="password" id="lPass" placeholder="Password">
+      <button class="login-btn" onclick="doLogin()">Sign In →</button>
+      <p class="login-err" id="loginErr">Incorrect email or password.</p>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div id="dashboard">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">Hilltop <em>Visuals</em></div>
+      <nav class="sidebar-nav">
+        <div class="s-item active" id="si-overview" onclick="showPanel('overview',this)">[ OV ] &nbsp;Overview</div>
+        <div class="s-item" id="si-projects" onclick="showPanel('projects',this)">[ PJ ] &nbsp;Projects</div>
+        <div class="s-item" id="si-messages" onclick="showPanel('messages',this)">
+          [ MS ] &nbsp;Messages
+          <span class="s-badge" id="unreadBadge" style="display:none">0</span>
+        </div>
+      </nav>
+      <div class="s-logout" onclick="confirmLogout()">← &nbsp;Sign Out</div>
+    </aside>
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title" id="topbarTitle">Overview</div>
+      <div class="topbar-right">
+        <span class="admin-email" id="adminEmail"></span>
+        <button class="logout-btn" onclick="confirmLogout()">Sign Out</button>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="scroll-body">
+
+      <!-- OVERVIEW -->
+      <div class="panel active" id="panel-overview">
+        <h1 class="panel-title">Overview</h1>
+        <p class="panel-sub">Your portfolio at a glance</p>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-lbl">Total Projects</div><div class="stat-val blue" id="st-projects">—</div></div>
+          <div class="stat-card"><div class="stat-lbl">Total Messages</div><div class="stat-val" id="st-msgs">—</div></div>
+          <div class="stat-card"><div class="stat-lbl">Unread Messages</div><div class="stat-val red" id="st-unread">—</div></div>
+          <div class="stat-card"><div class="stat-lbl">Portfolio Status</div><div class="stat-val green" style="font-size:1.3rem;">Live ✓</div></div>
+        </div>
+        <div class="quick-grid">
+          <div class="quick-card" onclick="showPanel('projects',document.getElementById('si-projects'))">
+            <span class="quick-icon">[ PJ ]</span>
+            <div class="quick-label">Manage Projects</div>
+          </div>
+          <div class="quick-card" onclick="showPanel('messages',document.getElementById('si-messages'))">
+            <span class="quick-icon">[ MS ]</span>
+            <div class="quick-label">View Messages</div>
+          </div>
+          <a href="portfolio.html" target="_blank" class="quick-card" style="display:block;">
+            <span class="quick-icon">[ → ]</span>
+            <div class="quick-label">View Live Site</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="panel" id="panel-projects">
+        <div class="panel-toprow">
+          <div>
+            <h1 class="panel-title">Projects</h1>
+            <p class="panel-sub" style="margin-bottom:0;">Add and manage your portfolio projects</p>
+          </div>
+          <button class="add-btn" onclick="openProjModal(null)">+ Add Project</button>
+        </div>
+        <div class="proj-cards" id="projCards">
+          <div class="no-data" style="grid-column:1/-1">
+            <span class="no-data-icon">[ ··· ]</span>
+            Loading projects...
+          </div>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="panel" id="panel-messages">
+        <h1 class="panel-title">Messages</h1>
+        <p class="panel-sub">Contact form submissions from visitors</p>
+        <div class="msg-filters">
+          <button class="m-pill active" onclick="filterMsgs(this,'all')">All</button>
+          <button class="m-pill" onclick="filterMsgs(this,'unread')">Unread</button>
+          <button class="m-pill" onclick="filterMsgs(this,'read')">Read</button>
+        </div>
+        <div class="messages-list" id="msgList">
+          <div class="no-data"><span class="no-data-icon">[ ··· ]</span>Loading messages...</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM NAV (mobile) -->
+    <nav class="bottom-nav">
+      <button class="bnav-item active" id="bi-overview" onclick="showPanel('overview',this)"><span class="bicon">OV</span>Overview</button>
+      <button class="bnav-item" id="bi-projects" onclick="showPanel('projects',this)"><span class="bicon">PJ</span>Projects</button>
+      <button class="bnav-item" id="bi-messages" onclick="showPanel('messages',this)"><span class="bicon">MS</span>Messages</button>
+    </nav>
+  </div>
+
+  <!-- ── PROJECT MODAL ── -->
+  <div class="overlay" id="projOverlay">
+    <div class="modal-box">
+      <h3 id="projModalTitle">Add Project</h3>
+      <div class="m-group"><label>Project Title *</label><input type="text" id="mTitle" placeholder="e.g. Brand Identity for XYZ Co."></div>
+      <div class="m-row">
+        <div class="m-group">
+          <label>Category</label>
+          <select id="mCat">
+            <option value="">Select...</option>
+            <option>Graphic Design</option>
+            <option>Web Design</option>
+            <option>Brand Identity</option>
+            <option>UI/UX</option>
+            <option>Print</option>
+            <option>Social Media</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="m-group"><label>Project Link</label><input type="url" id="mLink" placeholder="https://..."></div>
+      </div>
+      <div class="m-group"><label>Description</label><textarea id="mDesc" placeholder="Brief description of the project..."></textarea></div>
+      <div class="m-group">
+        <label>Project Image</label>
+        <label class="img-upload-label" for="mImageFile">
+          <span style="font-weight:700;color:var(--accent);">[ IMG ]</span>
+          <span id="imgUploadText">Click to upload image</span>
+        </label>
+        <input type="file" id="mImageFile" accept="image/*" style="display:none" onchange="handleImageUpload(this)">
+        <input type="hidden" id="mImage">
+        <img id="imgPreview" alt="Preview">
+      </div>
+      <div id="projSaveErr" style="display:none;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:10px 14px;font-size:0.84rem;color:#DC2626;margin-top:14px;font-weight:500;"></div>
+      <div class="modal-foot">
+        <button class="m-cancel" onclick="closeProjModal()">Cancel</button>
+        <button class="m-save" id="projSaveBtn" onclick="saveProject()">Save Project</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONFIRM / PASSWORD MODAL ── -->
+  <div class="overlay" id="confirmOverlay">
+    <div class="confirm-modal-box">
+      <span class="confirm-icon" id="confirmIcon">[ ! ]</span>
+      <h3 id="confirmTitle">Are you sure?</h3>
+      <p id="confirmDesc">This action cannot be undone.</p>
+      <input type="password" id="confirmPass" placeholder="Enter your account password to confirm">
+      <p class="confirm-err" id="confirmErr">Incorrect password. Try again.</p>
+      <div class="confirm-foot">
+        <button class="conf-cancel" onclick="closeConfirm()">Cancel</button>
+        <button class="conf-ok" id="confirmOkBtn" onclick="runConfirmAction()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="statusBar"></div>
+  <div id="toast"></div>
+
+  <script type="module">
+    import { initializeApp }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, addDoc, updateDoc, deleteDoc,
+             doc, query, orderBy, serverTimestamp }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD2cEISpqe9ZQfjU7KUvEmC07CHFr-ecbo",
+      authDomain: "hilltop-visuals.firebaseapp.com",
+      projectId: "hilltop-visuals",
+      storageBucket: "hilltop-visuals.firebasestorage.app",
+      messagingSenderId: "5059891736",
+      appId: "1:5059891736:web:ab7138aefc7ed4dfd4296d"
+    };
+
+    const app  = initializeApp(firebaseConfig);
+    const db   = getFirestore(app);
+    const auth = getAuth(app);
+
+    let allProjects = [], allMsgs = [], editId = null, msgFilter = 'all';
+    let confirmAction = null; // stores { type, id } for pending confirm action
+    let currentUserEmail = '';
+
+    // ─────────────────────────────────────────────────────
+    //  AUTH
+    // ─────────────────────────────────────────────────────
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        currentUserEmail = user.email;
+        document.getElementById('loginPage').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+        document.getElementById('adminEmail').textContent  = user.email;
+        startListeners();
+      } else {
+        document.getElementById('loginPage').style.display = 'flex';
+        document.getElementById('dashboard').style.display = 'none';
+      }
+    });
+
+    window.doLogin = async function() {
+      const email = document.getElementById('lEmail').value.trim();
+      const pass  = document.getElementById('lPass').value;
+      const err   = document.getElementById('loginErr');
+      err.style.display = 'none';
+      try { await signInWithEmailAndPassword(auth, email, pass); }
+      catch(e) { err.style.display = 'block'; }
+    };
+    document.getElementById('lPass').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+    // ─────────────────────────────────────────────────────
+    //  DATA FETCHING  —  getDocs with auto-retry on failure
+    // ─────────────────────────────────────────────────────
+    const MAX_RETRIES   = 4;
+    const RETRY_DELAYS  = [3000, 5000, 8000, 12000]; // escalating back-off
+    let   retryCount    = 0;
+    let   retryTimer    = null;
+    let   refreshTimer  = null;
+    let   lastRefresh   = 0;
+    let   loadFailed    = false; // true after all retries exhausted
+
+    // ── Status bar (top edge, auto-hides) ─────────────────
+    function showStatusBar(msg, type) {
+      const bar = document.getElementById('statusBar');
+      bar.textContent = msg;
+      bar.className   = 'show ' + type;
+      clearTimeout(bar._t);
+      bar._t = setTimeout(() => { bar.className = ''; }, 4500);
+    }
+
+    // ── Fetch one collection: ordered → unordered fallback ─
+    async function fetchCollection(name) {
+      try {
+        const snap = await getDocs(query(collection(db, name), orderBy('createdAt','desc')));
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch(e) {
+        // Missing index — fetch unordered, sort client-side
+        const snap = await getDocs(collection(db, name));
+        const rows = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        rows.sort((a,b) => (b.createdAt?.seconds||0) - (a.createdAt?.seconds||0));
+        return rows;
+      }
+    }
+
+    // ── Show retry banner inside panels when load fails ────
+    function showRetryBanners(attempt) {
+      const isFinal = attempt >= MAX_RETRIES;
+      const projWrap = document.getElementById('projCards');
+      const msgWrap  = document.getElementById('msgList');
+      const bannerHTML = isFinal
+        ? `<div class="retry-banner">
+            <div class="retry-banner-icon">📡</div>
+            <h4>Connection Unstable</h4>
+            <p>Data couldn't load. Please ensure you have a stable internet connection, then tap reload.</p>
+            <button class="retry-banner-btn" onclick="window.__adminReload()">↺ &nbsp;Reload Data</button>
+            <p class="retry-note-sm">If the issue persists, check your network settings.</p>
+          </div>`
+        : `<div class="no-data" style="grid-column:1/-1">
+            <span class="no-data-icon">[ ··· ]</span>
+            Retrying… (${attempt}/${MAX_RETRIES})
+          </div>`;
+      if (projWrap) projWrap.innerHTML = bannerHTML;
+      if (msgWrap)  msgWrap.innerHTML  = bannerHTML.replace('grid-column:1/-1;','');
+    }
+
+    // ── Manual reload (called by retry button) ─────────────
+    window.__adminReload = function() {
+      retryCount = 0;
+      loadFailed = false;
+      clearTimeout(retryTimer);
+      refreshAll();
+    };
+
+    // ── Central refresh ────────────────────────────────────
+    async function refreshAll(silent = false) {
+      const now = Date.now();
+      if (now - lastRefresh < 4000) return; // debounce
+      lastRefresh = now;
+
+      const titleEl   = document.getElementById('topbarTitle');
+      const origTitle = titleEl.textContent.replace(' …','');
+      if (!silent) titleEl.textContent = origTitle + ' …';
+
+      try {
+        const [projects, msgs] = await Promise.all([
+          fetchCollection('projects'),
+          fetchCollection('messages')
+        ]);
+        // ✓ Success — reset retry state
+        retryCount = 0;
+        loadFailed = false;
+        clearTimeout(retryTimer);
+        allProjects = projects;
+        allMsgs     = msgs;
+        renderProjects();
+        renderMsgs();
+        updateStats();
+        if (!silent) showStatusBar('Data loaded ✓', 'ok');
+      } catch(e) {
+        console.warn('Admin load failed (attempt ' + (retryCount+1) + '):', e.message);
+        if (retryCount < MAX_RETRIES) {
+          retryCount++;
+          showStatusBar(`Connection issue — retrying in ${RETRY_DELAYS[retryCount-1]/1000}s…`, 'warn');
+          showRetryBanners(retryCount);
+          retryTimer = setTimeout(() => { lastRefresh = 0; refreshAll(); }, RETRY_DELAYS[retryCount-1]);
+        } else {
+          loadFailed = true;
+          showStatusBar('Could not load data — check your connection', 'warn');
+          showRetryBanners(MAX_RETRIES); // shows manual reload button
+        }
+      } finally {
+        titleEl.textContent = origTitle;
+      }
+    }
+
+    function startListeners() {
+      refreshAll();
+
+      // Auto-refresh every 30s while tab is visible
+      refreshTimer = setInterval(() => {
+        if (!document.hidden && !loadFailed) refreshAll(true);
+      }, 30000);
+
+      // Refresh when tab becomes visible again
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) { lastRefresh = 0; refreshAll(); }
+      });
+
+      // Refresh when window regains focus
+      window.addEventListener('focus', () => { lastRefresh = 0; refreshAll(); });
+
+      // Online/offline events
+      window.addEventListener('online', () => {
+        showStatusBar('Connection restored — refreshing…', 'ok');
+        retryCount = 0; loadFailed = false;
+        clearTimeout(retryTimer);
+        lastRefresh = 0; refreshAll();
+      });
+      window.addEventListener('offline', () => {
+        showStatusBar('You are offline — data may be outdated', 'warn');
+      });
+    }
+
+    // ─────────────────────────────────────────────────────
+    //  STATS
+    // ─────────────────────────────────────────────────────
+    function updateStats() {
+      const unread = allMsgs.filter(m=>!m.read).length;
+      document.getElementById('st-projects').textContent = allProjects.length;
+      document.getElementById('st-msgs').textContent     = allMsgs.length;
+      document.getElementById('st-unread').textContent   = unread;
+      const badge = document.getElementById('unreadBadge');
+      badge.style.display = unread > 0 ? 'block' : 'none';
+      badge.textContent = unread;
+    }
+
+    // ─────────────────────────────────────────────────────
+    //  PANEL NAV
+    // ─────────────────────────────────────────────────────
+    const panelTitles = { overview:'Overview', projects:'Projects', messages:'Messages' };
+    window.showPanel = function(name, el) {
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.bnav-item,.s-item').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-'+name).classList.add('active');
+      document.getElementById('topbarTitle').textContent = panelTitles[name];
+      document.querySelector('.scroll-body').scrollTop = 0;
+      if (el) el.classList.add('active');
+      // sync both sidebar and bottom nav
+      ['si','bi'].forEach(prefix => {
+        const btn = document.getElementById(prefix+'-'+name);
+        if (btn) btn.classList.add('active');
+      });
+    };
+
+    // ─────────────────────────────────────────────────────
+    //  PROJECTS
+    // ─────────────────────────────────────────────────────
+    function renderProjects() {
+      const wrap = document.getElementById('projCards');
+      if (!allProjects.length) {
+        wrap.innerHTML = `<div class="no-data" style="grid-column:1/-1"><span class="no-data-icon">[ · ]</span>No projects yet. Click "+ Add Project" to get started.</div>`;
+        return;
+      }
+      wrap.innerHTML = allProjects.map(p => `
+        <div class="proj-card">
+          <div class="proj-img">
+            ${p.image ? `<img src="${p.image}" alt="${escHtml(p.title)}" loading="lazy">` : '[ IMG ]'}
+          </div>
+          <div class="proj-body">
+            <div class="proj-cat">${p.category || 'Design'}</div>
+            <div class="proj-name">${escHtml(p.title)}</div>
+            ${p.link ? `<a href="${p.link}" target="_blank" class="proj-link">↗ ${p.link}</a>` : '<div style="height:14px"></div>'}
+            <div class="proj-actions">
+              <button class="p-edit-btn" onclick="openProjModal('${p.id}')">Edit</button>
+              <button class="p-del-btn" onclick="askDeleteProject('${p.id}','${escHtml(p.title).replace(/'/g,'&apos;')}')">Delete</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ─────────────────────────────────────────────────────
+    //  PROJECT MODAL
+    // ─────────────────────────────────────────────────────
+    window.openProjModal = function(id) {
+      editId = id || null;
+      document.getElementById('projModalTitle').textContent = id ? 'Edit Project' : 'Add Project';
+      const p = id ? allProjects.find(x=>x.id===id) : null;
+      document.getElementById('mTitle').value = p?.title || '';
+      document.getElementById('mCat').value   = p?.category || '';
+      document.getElementById('mLink').value  = p?.link || '';
+      document.getElementById('mDesc').value  = p?.description || '';
+      const prev = document.getElementById('imgPreview');
+      if (p?.image) {
+        document.getElementById('mImage').value = p.image;
+        prev.src = p.image; prev.style.display = 'block';
+        document.getElementById('imgUploadText').textContent = 'Image loaded — click to change';
+      } else {
+        document.getElementById('mImage').value = '';
+        prev.src = ''; prev.style.display = 'none';
+        document.getElementById('imgUploadText').textContent = 'Click to upload image';
+      }
+      // Reset save button
+      const btn = document.getElementById('projSaveBtn');
+      btn.textContent = 'Save Project'; btn.disabled = false;
+      document.getElementById('projOverlay').classList.add('open');
+    };
+
+    window.closeProjModal = function() {
+      document.getElementById('projOverlay').classList.remove('open');
+      editId = null;
+      const btn = document.getElementById('projSaveBtn');
+      btn.textContent = 'Save Project'; btn.disabled = false;
+      document.getElementById('projSaveErr').style.display = 'none';
+    };
+
+    // ── Image compression ─────────────────────────────────────────────────
+    // Firestore has a 1MB document limit. Base64 images bloat fast.
+    // We compress & resize to max 800px wide, JPEG quality 0.75 — keeps
+    // images well under 300KB so Firestore never rejects the document.
+    function compressImage(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = () => reject(new Error('Could not read file'));
+        reader.onload = function(e) {
+          const img = new Image();
+          img.onerror = () => reject(new Error('Could not decode image'));
+          img.onload = function() {
+            const MAX_W = 800, MAX_H = 800;
+            let { width, height } = img;
+            // Scale down if needed
+            if (width > MAX_W || height > MAX_H) {
+              const ratio = Math.min(MAX_W / width, MAX_H / height);
+              width  = Math.round(width  * ratio);
+              height = Math.round(height * ratio);
+            }
+            const canvas = document.createElement('canvas');
+            canvas.width = width; canvas.height = height;
+            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+
+            // Try quality 0.75 first; if still > 700KB drop to 0.5
+            let b64 = canvas.toDataURL('image/jpeg', 0.75);
+            if (b64.length > 700_000) {
+              b64 = canvas.toDataURL('image/jpeg', 0.5);
+            }
+            if (b64.length > 900_000) {
+              b64 = canvas.toDataURL('image/jpeg', 0.35);
+            }
+            resolve(b64);
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    window.handleImageUpload = async function(input) {
+      const file = input.files[0]; if (!file) return;
+
+      const label = document.getElementById('imgUploadText');
+      const prev  = document.getElementById('imgPreview');
+      label.textContent = 'Compressing image…';
+
+      try {
+        const b64 = await compressImage(file);
+        document.getElementById('mImage').value = b64;
+        prev.src = b64; prev.style.display = 'block';
+
+        // Show compressed size so you know it's safe
+        const kb = Math.round(b64.length * 0.75 / 1024);
+        label.textContent = `${file.name} — ${kb} KB (compressed)`;
+
+        if (kb > 800) {
+          label.textContent += ' ⚠ Still large — may fail. Use a smaller image.';
+          label.style.color = '#D97706';
+        } else {
+          label.style.color = '';
+        }
+      } catch(err) {
+        label.textContent = 'Image error — try a different file';
+        label.style.color = '#DC2626';
+        console.error(err);
+      }
+    };
+
+    window.saveProject = async function() {
+      const title    = document.getElementById('mTitle').value.trim();
+      const category = document.getElementById('mCat').value;
+      const link     = document.getElementById('mLink').value.trim();
+      const desc     = document.getElementById('mDesc').value.trim();
+      const image    = document.getElementById('mImage').value;
+
+      if (!title) { alert('Project title is required.'); return; }
+
+      // Hard-stop if image is still too large for Firestore (>900KB base64)
+      if (image && image.length > 900_000) {
+        alert('Image is too large (' + Math.round(image.length/1024) + ' KB). Please use a smaller or lower-resolution image.');
+        return;
+      }
+
+      const btn = document.getElementById('projSaveBtn');
+      const saveErr = document.getElementById('projSaveErr');
+      btn.textContent = 'Saving…'; btn.disabled = true;
+      saveErr.style.display = 'none';
+
+      try {
+        const data = { title, category, link, description: desc, image };
+        if (editId) {
+          await updateDoc(doc(db,'projects',editId), data);
+          showToast('Project updated ✓');
+        } else {
+          await addDoc(collection(db,'projects'), { ...data, createdAt: serverTimestamp() });
+          showToast('Project added ✓');
+        }
+        lastRefresh = 0;
+        await refreshAll(true);
+        closeProjModal();
+      } catch(e) {
+        console.error('Save failed:', e);
+        // Show a real, specific error message inside the modal (not just alert)
+        let msg = 'Save failed — please try again.';
+        if (e.code === 'permission-denied')       msg = 'Permission denied. Make sure you are logged in.';
+        else if (e.code === 'unavailable')         msg = 'No connection. Check your internet and retry.';
+        else if (e.message?.includes('exceeds'))   msg = 'Image is too large for the database. Use a smaller image.';
+        else if (e.message?.includes('quota'))     msg = 'Firebase quota reached. Try again later.';
+        else if (e.message)                        msg = 'Error: ' + e.message;
+
+        saveErr.textContent = msg;
+        saveErr.style.display = 'block';
+        btn.textContent = 'Save Project'; btn.disabled = false;
+      }
+    };
+
+    // ─────────────────────────────────────────────────────
+    //  MESSAGES
+    // ─────────────────────────────────────────────────────
+    function renderMsgs() {
+      const list = document.getElementById('msgList');
+      let data = allMsgs;
+      if (msgFilter === 'unread') data = data.filter(m=>!m.read);
+      if (msgFilter === 'read')   data = data.filter(m=>m.read);
+
+      if (!data.length) {
+        list.innerHTML = `<div class="no-data"><span class="no-data-icon">[ · ]</span>No messages here.</div>`;
+        return;
+      }
+      list.innerHTML = data.map(m => {
+        const time = m.createdAt?.toDate
+          ? m.createdAt.toDate().toLocaleString('en-NG',{dateStyle:'medium',timeStyle:'short'})
+          : 'Just now';
+        return `
+          <div class="msg-card ${m.read ? '' : 'unread'}">
+            <div class="msg-top">
+              <div class="msg-name">${m.read ? '' : '<span class="unread-dot"></span>'}${escHtml(m.name)}</div>
+              <div class="msg-time">${time}</div>
+            </div>
+            <div class="msg-meta">
+              <span>${m.phone}</span>
+              ${m.email ? `<span>${escHtml(m.email)}</span>` : ''}
+            </div>
+            ${m.service ? `<span class="msg-service">${escHtml(m.service)}</span>` : ''}
+            <div class="msg-text">${escHtml(m.message)}</div>
+            <div class="msg-actions">
+              ${m.phone ? `<a href="https://wa.me/${m.phone.replace(/\D/g,'')}" target="_blank" class="msg-wa-btn">WhatsApp</a>` : ''}
+              <button class="msg-mark-btn" onclick="markMsg('${m.id}',${!m.read})">${m.read ? 'Mark Unread' : 'Mark Read'}</button>
+              <button class="msg-del-btn" onclick="askDeleteMsg('${m.id}','${escHtml(m.name).replace(/'/g,'&apos;')}')">Delete</button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    window.filterMsgs = function(btn, f) {
+      document.querySelectorAll('.m-pill').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active'); msgFilter = f; renderMsgs();
+    };
+    window.markMsg = async(id, read) => {
+      await updateDoc(doc(db,'messages',id),{read});
+      showToast(read ? 'Marked as read' : 'Marked as unread');
+      lastRefresh = 0; // allow immediate refresh
+      await refreshAll(true);
+    };
+
+    // ─────────────────────────────────────────────────────
+    //  CONFIRM MODAL (password-protected destructive actions)
+    // ─────────────────────────────────────────────────────
+    function openConfirm({ icon, title, desc, okLabel, okClass, action }) {
+      document.getElementById('confirmIcon').textContent = icon;
+      document.getElementById('confirmTitle').textContent = title;
+      document.getElementById('confirmDesc').textContent = desc;
+      const okBtn = document.getElementById('confirmOkBtn');
+      okBtn.textContent = okLabel;
+      okBtn.className = 'conf-ok ' + (okClass || '');
+      document.getElementById('confirmPass').value = '';
+      document.getElementById('confirmErr').style.display = 'none';
+      confirmAction = action;
+      document.getElementById('confirmOverlay').classList.add('open');
+      setTimeout(() => document.getElementById('confirmPass').focus(), 200);
+    }
+
+    window.closeConfirm = function() {
+      document.getElementById('confirmOverlay').classList.remove('open');
+      confirmAction = null;
+    };
+
+    window.runConfirmAction = async function() {
+      const pass = document.getElementById('confirmPass').value;
+      const err  = document.getElementById('confirmErr');
+      err.style.display = 'none';
+
+      // Verify password by re-authenticating
+      try {
+        await signInWithEmailAndPassword(auth, currentUserEmail, pass);
+      } catch(e) {
+        err.style.display = 'block';
+        document.getElementById('confirmPass').value = '';
+        document.getElementById('confirmPass').focus();
+        return;
+      }
+
+      if (!confirmAction) { closeConfirm(); return; }
+
+      try {
+        if (confirmAction.type === 'deleteProject') {
+          await deleteDoc(doc(db,'projects', confirmAction.id));
+          showToast('Project deleted');
+          lastRefresh = 0;
+          await refreshAll(true);
+        } else if (confirmAction.type === 'deleteMsg') {
+          await deleteDoc(doc(db,'messages', confirmAction.id));
+          showToast('Message deleted');
+          lastRefresh = 0;
+          await refreshAll(true);
+        } else if (confirmAction.type === 'logout') {
+          await signOut(auth);
+        }
+      } catch(e) {
+        alert('Action failed. Please try again.');
+      }
+      closeConfirm();
+    };
+
+    // Enter key on password field
+    document.getElementById('confirmPass').addEventListener('keydown', e => {
+      if (e.key === 'Enter') runConfirmAction();
+    });
+
+    window.askDeleteProject = function(id, name) {
+      openConfirm({
+        icon: '[ × ]',
+        title: 'Delete Project?',
+        desc: `"${name}" will be permanently removed from your portfolio. This cannot be undone.`,
+        okLabel: 'Delete Project',
+        okClass: '',
+        action: { type: 'deleteProject', id }
+      });
+    };
+
+    window.askDeleteMsg = function(id, name) {
+      openConfirm({
+        icon: '[ × ]',
+        title: 'Delete Message?',
+        desc: `The message from "${name}" will be permanently deleted. This cannot be undone.`,
+        okLabel: 'Delete Message',
+        okClass: '',
+        action: { type: 'deleteMsg', id }
+      });
+    };
+
+    window.confirmLogout = function() {
+      openConfirm({
+        icon: '[ → ]',
+        title: 'Sign Out?',
+        desc: 'Enter your password to confirm you want to sign out of the admin panel.',
+        okLabel: 'Sign Out',
+        okClass: 'blue',
+        action: { type: 'logout' }
+      });
+    };
+
+    // Close modals on background click
+    document.getElementById('projOverlay').addEventListener('click', function(e) { if(e.target===this) closeProjModal(); });
+    document.getElementById('confirmOverlay').addEventListener('click', function(e) { if(e.target===this) closeConfirm(); });
+
+    // ─────────────────────────────────────────────────────
+    //  TOAST
+    // ─────────────────────────────────────────────────────
+    let toastTimer;
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+    }
+
+    function escHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+  </script>
+</body>
+</html>
