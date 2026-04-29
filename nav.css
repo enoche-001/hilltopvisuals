@@ -1,0 +1,106 @@
+/* ===================================================
+   nav.css — Shared navbar styles for Hilltop Visuals
+   =================================================== */
+
+#navbar {
+  position: fixed !important;
+  top: 0; left: 0; right: 0;
+  z-index: 9999 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6%;
+  height: 68px;
+  background: #ffffff !important;
+  border-bottom: 1.5px solid #E2E8F0;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.10);
+}
+#navbar .nav-logo {
+  font-family: 'Playfair Display', serif !important;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0C0F1A !important;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+#navbar .nav-logo em {
+  font-style: italic;
+  color: #2563EB !important;
+}
+#navbar .nav-links {
+  display: flex !important;
+  gap: 32px;
+  list-style: none;
+  margin: 0; padding: 0;
+  align-items: center;
+}
+#navbar .nav-links a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1E2535 !important;
+  text-decoration: none;
+}
+#navbar .nav-links a:hover { color: #2563EB !important; }
+#navbar .nav-cta {
+  background: #2563EB !important;
+  color: #ffffff !important;
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 600;
+}
+#navbar .hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  background: transparent !important;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  width: 44px;
+  height: 44px;
+}
+#navbar .hamburger span {
+  display: block !important;
+  width: 24px;
+  height: 3px;
+  background: #0C0F1A !important;
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+
+@media (max-width: 900px) {
+  #navbar .nav-links { display: none !important; }
+  #navbar .hamburger { display: flex !important; }
+  #navbar .nav-links.open {
+    display: flex !important;
+    flex-direction: column;
+    position: fixed;
+    top: 68px; left: 0; right: 0;
+    background: #ffffff;
+    border-bottom: 1.5px solid #E2E8F0;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.10);
+    padding: 12px 6% 24px;
+    gap: 0;
+    list-style: none;
+    z-index: 9998;
+  }
+  #navbar .nav-links.open li { border-bottom: 1px solid #f0f0f0; }
+  #navbar .nav-links.open li:last-child { border: none; padding-top: 12px; }
+  #navbar .nav-links.open a {
+    display: block;
+    padding: 14px 0;
+    color: #0C0F1A !important;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  #navbar .nav-links.open .nav-cta {
+    display: block;
+    text-align: center;
+    background: #2563EB !important;
+    color: #ffffff !important;
+    padding: 13px 22px;
+    border-radius: 50px;
+  }
+}

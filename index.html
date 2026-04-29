@@ -2,42 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="dns-prefetch" href="https://firestore.googleapis.com">
+  <link rel="dns-prefetch" href="https://images.unsplash.com">
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1558655146-d09347e92766?w=1600&q=80&auto=format&fit=crop" fetchpriority="high">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- ── Primary SEO ── -->
-  <title>Hilltop Visuals — Graphic Designer & Web Developer in Lokoja, Nigeria</title>
-  <meta name="description" content="Hilltop Visuals is a creative graphic design and web development studio based in Lokoja, Kogi State, Nigeria. We craft bold brand identities, stunning visuals, and fully-built websites that connect businesses with their audiences.">
-  <meta name="keywords" content="graphic designer Nigeria, web developer Lokoja, brand identity Kogi State, logo design Nigeria, flyer design, web design Nigeria, Hilltop Visuals, Enoch Emmanuel designer">
-  <meta name="author" content="Enoch Emmanuel — Hilltop Visuals">
+  <title>Hilltop Visuals — Creative Design Studio in Lokoja, Nigeria</title>
+  <meta name="description" content="Hilltop Visuals is a creative graphic design and web development studio based in Lokoja, Kogi State, Nigeria. We craft bold brand identities, stunning visuals, and fully-built websites.">
+  <meta name="keywords" content="graphic design studio Nigeria, web developer Lokoja, brand identity Kogi State, logo design Nigeria, creative agency Lokoja, Hilltop Visuals">
+  <meta name="author" content="Hilltop Visuals">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://hilltopvisuals.name.ng/">
-
-  <!-- ── Open Graph ── -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://hilltop-visuals.name.ng/">
-  <meta property="og:title" content="Hilltop Visuals — Graphic Designer & Web Developer">
+  <meta property="og:url" content="https://hilltopvisuals.name.ng/">
+  <meta property="og:title" content="Hilltop Visuals — Creative Design Studio">
   <meta property="og:description" content="Bold brands. Beautiful websites. Hilltop Visuals is your go-to creative studio for graphic design, web development, and brand identity — based in Lokoja, Nigeria.">
   <meta property="og:image" content="https://i.ibb.co/S7ySnwGp/1000374897.jpg">
-  <meta property="og:image:alt" content="Hilltop Visuals — Creative Design Studio">
   <meta property="og:locale" content="en_NG">
   <meta property="og:site_name" content="Hilltop Visuals">
-
-  <!-- ── Twitter / X Card ── -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Hilltop Visuals — Graphic Designer & Web Developer">
-  <meta name="twitter:description" content="Bold brands. Beautiful websites. Lokoja-based creative studio for graphic design, web development, and brand identity.">
+  <meta name="twitter:title" content="Hilltop Visuals — Creative Design Studio">
+  <meta name="twitter:description" content="Bold brands. Beautiful websites. Lokoja-based creative studio.">
   <meta name="twitter:image" content="https://i.ibb.co/S7ySnwGp/1000374897.jpg">
-
-  <!-- ── JSON-LD Structured Data ── -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Hilltop Visuals",
     "description": "Creative graphic design and web development studio based in Lokoja, Kogi State, Nigeria.",
-    "url": "https://hilltop-visuals.web.app/",
+    "url": "https://hilltopvisuals.name.ng/",
     "image": "https://i.ibb.co/S7ySnwGp/1000374897.jpg",
-    "founder": { "@type": "Person", "name": "Enoch Emmanuel", "jobTitle": "Graphic Designer & Web Developer" },
     "address": { "@type": "PostalAddress", "streetAddress": "Felele", "addressLocality": "Lokoja", "addressRegion": "Kogi State", "addressCountry": "NG" },
     "contactPoint": { "@type": "ContactPoint", "telephone": "+2348150391686", "contactType": "Customer Service", "availableLanguage": "English", "areaServed": "NG" },
     "sameAs": ["https://instagram.com/_hilltopvisuals","https://tiktok.com/@hilltop.visuals","https://www.facebook.com/share/1C88Tai5y7/"],
@@ -45,85 +38,43 @@
     "openingHours": "Mo-Su 00:00-23:59"
   }
   </script>
-
-  <!-- ── Fonts ── -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="icon" href="Logo.png" type="image/png">
   <link rel="stylesheet" href="style.css">
-
-  <style>
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* Profile shimmer while image loads */
-    .profile-img-wrap {
-      background: linear-gradient(110deg, #e8eeff 30%, #f5f7ff 50%, #e8eeff 70%);
-      background-size: 200% 100%;
-      animation: shimmer 1.5s linear infinite;
-    }
-    .profile-img-wrap.loaded { animation: none; background: none; }
-    @keyframes shimmer { to { background-position: -200% 0; } }
-
-    /* FAQ Section */
-    .faq-section { background: var(--white); }
-    .faq-inner { max-width: 780px; margin: 0 auto; }
-    .faq-item {
-      border: 1px solid var(--border); border-radius: 14px;
-      margin-bottom: 12px; overflow: hidden; transition: box-shadow 0.25s;
-    }
-    .faq-item:hover { box-shadow: var(--shadow); }
-    .faq-item.open { border-color: var(--accent); }
-    .faq-q {
-      width: 100%; background: none; border: none; text-align: left;
-      padding: 20px 24px; font-family: 'DM Sans', sans-serif; font-size: 0.98rem;
-      font-weight: 600; color: var(--ink); cursor: pointer;
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 16px; transition: color 0.2s;
-    }
-    .faq-q:hover { color: var(--accent); }
-    .faq-item.open .faq-q { color: var(--accent); }
-    .faq-icon {
-      flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
-      background: var(--accent-light); color: var(--accent); font-size: 1.2rem;
-      display: flex; align-items: center; justify-content: center;
-      transition: transform 0.3s, background 0.25s; font-weight: 700; line-height: 1;
-    }
-    .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--accent); color: var(--white); }
-    .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
-    .faq-item.open .faq-a { max-height: 300px; }
-    .faq-a-inner { padding: 0 24px 20px; font-size: 0.93rem; color: var(--mid); line-height: 1.75; }
-  </style>
-</head>
+  <link rel="stylesheet" href="nav.css">
+  <link rel="stylesheet" href="index-page.css"></head>
 <body>
 
   <!-- NAV -->
-  <nav id="navbar" role="navigation" aria-label="Main navigation">
-    <a href="index.html" class="nav-logo" aria-label="Hilltop Visuals — Home">Hilltop <em>Visuals</em></a>
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">Hilltop <em>Visuals</em></a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#about">About</a></li>
-      <li><a href="#skills">Skills</a></li>
+      <li><a href="#skills">Services</a></li>
+      <li><a href="#team">Team</a></li>
       <li><a href="#work">Work</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="portfolio.html">Portfolio</a></li>
-      <li><a href="#contact" class="nav-cta">Contact Me</a></li>
+      <li><a href="#contact" class="nav-cta">Get Started</a></li>
     </ul>
-    <button class="hamburger" onclick="toggleNav()" aria-label="Toggle navigation menu" aria-expanded="false">
+    <button class="hamburger" onclick="toggleNav()" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
   </nav>
 
   <!-- HERO -->
-  <section class="hero" aria-label="Introduction">
-    <div class="hero-bg-text" aria-hidden="true">DESIGN</div>
+  <section class="hero" aria-label="Hilltop Visuals Introduction">
+    <div class="hero-bg-text" aria-hidden="true">VISUALS</div>
     <div class="hero-content">
       <div class="hero-left">
-        <div class="hero-tag">✦ Graphic &amp; Web Designer</div>
-        <h1>Crafting <em>Visual</em><br>Experiences<br>That Inspire.</h1>
-        <p class="hero-desc">Hi, I'm Enoch Emmanuel — the creative behind Hilltop Visuals. I transform ideas into striking visuals and powerful digital products. From brand identities to fully-built websites, I make your vision real and your brand unforgettable.</p>
+        <div class="hero-tag">✦ Creative Studio &nbsp;·&nbsp; Lokoja, Nigeria</div>
+        <h1>Where Bold<br><em>Ideas</em> Become<br>Iconic Brands.</h1>
+        <p class="hero-desc">Hilltop Visuals is a full-service creative studio delivering world-class graphic design, web development, and brand identity solutions. We elevate businesses across Nigeria and beyond.</p>
         <div class="hero-btns">
-          <a href="portfolio.html" class="btn-primary">View My Work →</a>
-          <a href="#contact" class="btn-ghost">Let's Talk</a>
+          <a href="portfolio.html" class="btn-primary">View Our Work →</a>
+          <a href="#contact" class="btn-ghost-light">Start a Project</a>
         </div>
         <div class="hero-socials">
           <a href="https://wa.me/+2347012182419" target="_blank" rel="noopener noreferrer" class="social-pill">WhatsApp</a>
@@ -131,24 +82,7 @@
           <a href="https://tiktok.com/@hilltop.visuals" target="_blank" rel="noopener noreferrer" class="social-pill">TikTok</a>
         </div>
       </div>
-      <div class="hero-right">
-        <div class="profile-frame" role="img" aria-label="Enoch Emmanuel — Graphic Designer and Web Developer at Hilltop Visuals">
-          <div class="profile-ring" aria-hidden="true"></div>
-          <div class="profile-img-wrap" id="profileWrap">
-            <img
-              src="https://i.ibb.co/S7ySnwGp/1000374897.jpg"
-              alt="Enoch Emmanuel, Graphic Designer and Web Developer — Hilltop Visuals, Lokoja Nigeria"
-              id="profilePic"
-              width="440" height="440"
-              fetchpriority="high"
-              onload="document.getElementById('profileWrap').classList.add('loaded')"
-            >
-            <div class="profile-badge" aria-label="Currently available for new projects">Available for Work ✓</div>
-          </div>
-          <div class="profile-stat ps1" aria-label="50 or more projects completed"><strong>50+</strong><span>Projects Done</span></div>
-          <div class="profile-stat ps2" aria-label="Over 2 years of experience"><strong>2+</strong><span>Years Exp.</span></div>
-        </div>
-      </div>
+
     </div>
     <div class="scroll-hint" aria-hidden="true">scroll down ↓</div>
   </section>
@@ -175,36 +109,37 @@
     </div>
   </div>
 
-  <!-- ABOUT -->
-  <section class="section" id="about" aria-labelledby="about-heading">
+  <!-- ABOUT with dark bg -->
+  <section class="about-bg-section" id="about" aria-labelledby="about-heading">
     <div class="about-container">
       <div class="about-text">
-        <p class="eyebrow">About Me</p>
-        <h2 id="about-heading">I'm a Creative<br><em>Problem Solver</em></h2>
-        <p class="body-text">I'm a passionate Graphic Designer and Web Developer who believes great design is more than aesthetics — it's communication. I craft visual identities and digital experiences that connect brands with their audiences and leave a lasting impression.</p>
-        <p class="body-text">With a sharp eye for detail and a love for clean, purposeful design, I help businesses, creators, and entrepreneurs stand out in a crowded market. Whether it's a bold logo, an eye-catching flyer, or a fully functional website with a secure backend — I bring your vision to life with care and precision.</p>
+        <p class="eyebrow">About Us</p>
+        <h2 id="about-heading">A Studio Built on<br><em>Creative Excellence</em></h2>
+        <p class="body-text">Hilltop Visuals is a creative design and web development studio in Lokoja, Kogi State, Nigeria. We exist to help businesses, startups, and entrepreneurs build memorable brands that drive real results.</p>
+        <p class="body-text">We bring together sharp strategy, bold aesthetics, and technical precision to deliver design work that doesn't just look great — it works. From a single logo to a complete digital presence, we treat every project as an opportunity to create something extraordinary.</p>
         <div class="about-tags">
           <span>Brand Design</span>
           <span>Print Media</span>
           <span>Web Dev</span>
-          <span>Motion Graphics</span>
+          <span>Graphics Design</span>
+           <span>Social Media Graphics</span>
           <span>Photo Editing</span>
         </div>
-        <a href="#contact" class="btn-primary" style="display:inline-block;margin-top:28px;">Work With Me →</a>
+        <a href="#contact" class="btn-primary" style="display:inline-block;margin-top:28px;">Work With Us →</a>
       </div>
       <div class="about-cards">
-        <div class="ac-card ac-big reveal"><div class="ac-num">50+</div><div class="ac-label">Projects Delivered</div></div>
-        <div class="ac-card ac-accent reveal"><div class="ac-num">2+</div><div class="ac-label">Years of Experience</div></div>
-        <div class="ac-card reveal"><div class="ac-num">98%</div><div class="ac-label">Client Satisfaction</div></div>
-        <div class="ac-card ac-dark reveal"><div class="ac-num">∞</div><div class="ac-label">Creative Ideas</div></div>
+        <div class="ac-card reveal" data-countup data-target="50" data-suffix="+"><div class="ac-num">0</div><div class="ac-label">Projects Delivered</div></div>
+        <div class="ac-card ac-accent reveal" data-year-card><div class="ac-num ac-year-display">2024</div><div class="ac-label">In Business Since</div></div>
+        <div class="ac-card reveal" data-countup data-target="98" data-suffix="%"><div class="ac-num">0</div><div class="ac-label">Client Satisfaction</div></div>
+        <div class="ac-card reveal"><div class="ac-num">∞</div><div class="ac-label">Creative Ideas</div></div>
       </div>
     </div>
   </section>
 
   <!-- SKILLS -->
   <section class="section skills-section" id="skills" aria-labelledby="skills-heading">
-    <p class="eyebrow" style="text-align:center;">What I Do</p>
-    <h2 id="skills-heading" style="text-align:center;">My <em>Skills &amp;</em><br>Expertise</h2>
+    <p class="eyebrow" style="text-align:center;">What We Do</p>
+    <h2 id="skills-heading" style="text-align:center;">Our <em>Services &amp;</em><br>Capabilities</h2>
     <div class="skills-grid">
       <article class="skill-card reveal">
         <span class="skill-icon" aria-hidden="true">[ G.D ]</span>
@@ -216,7 +151,7 @@
         <span class="skill-icon" aria-hidden="true">[ W.D ]</span>
         <h3>Web Development</h3>
         <p>Clean, responsive websites built from scratch — from simple landing pages to full multi-page sites with a secure, production-grade backend.</p>
-        <div class="skill-tools"><span>HTML / CSS</span><span>JavaScript</span><span>Firebase</span><span>Google Console</span></div>
+        <div class="skill-tools"><span>HTML / CSS</span><span>JavaScript</span><span>SQL</span><span>Firebase</span><span>Google Console</span></div>
       </article>
       <article class="skill-card reveal">
         <span class="skill-icon" aria-hidden="true">[ S.M ]</span>
@@ -233,11 +168,48 @@
     </div>
   </section>
 
+  <!-- TEAM -->
+  <section class="team-section" id="team" aria-labelledby="team-heading">
+    <p class="eyebrow" style="text-align:center;">The People Behind the Work</p>
+    <h2 id="team-heading" style="text-align:center;">Meet Our <em>Team</em></h2>
+    <p class="body-text" style="text-align:center;max-width:520px;margin:0 auto;">A passionate group of creatives dedicated to delivering outstanding results for every client.</p>
+    <div class="team-grid">
+
+      <div class="team-card reveal">
+        <div class="team-avatar"><img src="https://i.ibb.co/rXrTRDp/Picsart-25-12-20-08-31-30-223-3.jpg" alt="Enoch- Founder" border="0"></div>
+        <div class="team-name">Enoch Emmanuel</div>
+        <span class="team-role">Founder &amp; Lead Designer</span>
+        <p class="team-bio">The creative vision behind Hilltop Visuals. Enoch leads brand strategy, graphic design, and ensures every project meets the studio's high standards.</p>
+        <div class="team-socials">
+          <a href="https://instagram.com/_hilltopvisuals" target="_blank" rel="noopener noreferrer" class="team-social-link" aria-label="Instagram">IG</a>
+          <a href="https://wa.me/+2347012182419" target="_blank" rel="noopener noreferrer" class="team-social-link" aria-label="WhatsApp">WA</a>
+          <a href="https://tiktok.com/@hilltop.visuals" target="_blank" rel="noopener noreferrer" class="team-social-link" aria-label="TikTok">TT</a>
+        </div>
+      </div>
+
+      <div class="team-card reveal" style="transition-delay:0.1s">
+        <div class="team-avatar" style="background:linear-gradient(135deg,#059669 0%,#065F46 100%);"><img src="https://i.ibb.co/DHcFT3Md/1000371557.jpg" alt="David" border="0"></div>
+        <div class="team-name">Nduka David</div>
+        <span class="team-role">Project Manager</span>
+        <p class="team-bio">Responsible for the end-to-end completion of complex projects, ensuring every milestone is met with precision. Specialize in bridging the gap between strategy and execution, balancing scope, budget, and time to deliver high-impact results.
+</p>
+        <div class="team-socials">
+          <a href="#contact" class="team-social-link" aria-label="Contact">@</a>
+        </div>
+      </div>
+
+
+    </div>
+    <p class="body-text" style="text-align:center;margin-top:48px;font-size:0.88rem;">
+      Want to join our growing team? <a href="mailto:hilltopvisuals11@gmail.com" style="color:var(--accent);font-weight:600;">We're always open to talented creatives →</a>
+    </p>
+  </section>
+
   <!-- FEATURED WORK -->
   <section class="section work-section" id="work" aria-labelledby="work-heading">
     <p class="eyebrow">Selected Work</p>
-    <h2 id="work-heading">A Peek Into<br><em>My Portfolio</em></h2>
-    <p class="body-text" style="max-width:520px;margin-bottom:0;">A few of my favourite recent projects — head to the full portfolio to see everything.</p>
+    <h2 id="work-heading">A Peek Into<br><em>Our Portfolio</em></h2>
+    <p class="body-text" style="max-width:520px;margin-bottom:0;">A few of our favourite recent projects — head to the full portfolio to see everything.</p>
     <div class="work-grid" id="featuredWork" role="list">
       <div class="work-placeholder">
         <div class="wp-inner">
@@ -256,137 +228,61 @@
     <div class="faq-inner">
       <p class="eyebrow" style="text-align:center;">Got Questions?</p>
       <h2 id="faq-heading" style="text-align:center;margin-bottom:48px;">Frequently Asked<br><em>Questions</em></h2>
-
       <div class="faq-item reveal">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-          What services does Hilltop Visuals offer?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">Hilltop Visuals offers a full suite of creative services including Graphic Design (logos, flyers, banners, posters), Web Development (landing pages to multi-page websites), Brand Identity packages, Social Media Graphics, and Print Design. If you need something creative, chances are I can help — just reach out!</div>
-        </div>
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">What services does Hilltop Visuals offer?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Hilltop Visuals offers a full suite of creative services including Graphic Design (logos, flyers, banners, posters), Web Development (landing pages to multi-page websites), Brand Identity packages, Social Media Graphics, and Print Design. If you need something creative, chances are we can help — just reach out!</div></div>
       </div>
-
       <div class="faq-item reveal">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-          How long does a typical project take?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">It depends on the scope. A logo or flyer design can be ready in 1–3 days. A full brand identity package typically takes 3–7 days. Website projects range from 3 days for a simple landing page to 2–4 weeks for a full multi-page site with a custom backend. I always discuss timelines upfront so there are no surprises.</div>
-        </div>
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">How long does a typical project take?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">It depends on the scope. A logo or flyer design can be ready in 1–3 days. A full brand identity package typically takes 3–7 days. Website projects range from 3 days for a simple landing page to 2–4 weeks for a full multi-page site with a custom backend. We always discuss timelines upfront so there are no surprises.</div></div>
       </div>
-
       <div class="faq-item reveal">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-          How do we get started on a project?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">Simply reach out via the contact form below, WhatsApp, or any of my social platforms. Share a brief of what you need — the service, your brand, timeline, and budget if you have one. I'll respond within an hour to discuss next steps. No long waits, no fuss.</div>
-        </div>
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">How do we get started on a project?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Simply reach out via the contact form below, WhatsApp, or any of our social platforms. Share a brief of what you need — the service, your brand, timeline, and budget if you have one. We'll respond within an hour to discuss next steps. No long waits, no fuss.</div></div>
       </div>
-
       <div class="faq-item reveal">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-          Do you work with clients outside Lokoja / Nigeria?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">Absolutely. While I'm based in Lokoja, Kogi State, I work with clients across Nigeria and internationally. All communication, file delivery, and project management can be handled fully online via WhatsApp, email, or any preferred platform.</div>
-        </div>
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Do you work with clients outside Lokoja / Nigeria?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Absolutely. While we're based in Lokoja, Kogi State, we work with clients across Nigeria and internationally. All communication, file delivery, and project management can be handled fully online via WhatsApp, email, or any preferred platform.</div></div>
       </div>
-
       <div class="faq-item reveal">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-          What file formats will I receive for my designs?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">You'll receive all the formats you need. For logos and graphics: PNG (transparent background), JPG, PDF, and SVG. For print materials: high-resolution PDF or TIFF. For web assets: optimised PNG, JPG, and WebP. Just let me know what you need and I'll prepare everything accordingly.</div>
-        </div>
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">What file formats will I receive for my designs?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">You'll receive all the formats you need. For logos and graphics: PNG (transparent background), JPG, PDF, and SVG. For print materials: high-resolution PDF or TIFF. For web assets: optimised PNG, JPG, and WebP. Just let us know what you need and we'll prepare everything accordingly.</div></div>
       </div>
-
       <div class="faq-item reveal">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-          How many revisions are included?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">Every project includes revision rounds to ensure you're fully satisfied. The exact number depends on the package agreed upon, but I always work collaboratively and stay in close communication throughout — so we rarely need many rounds. Your satisfaction is the priority.</div>
-        </div>
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">How many revisions are included?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Every project includes revision rounds to ensure you're fully satisfied. The exact number depends on the package agreed upon, but we always work collaboratively and stay in close communication throughout — so we rarely need many rounds. Your satisfaction is the priority.</div></div>
       </div>
-
       <div class="faq-item reveal">
-        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">
-          Can you maintain or update my website after it's built?
-          <span class="faq-icon" aria-hidden="true">+</span>
-        </button>
-        <div class="faq-a">
-          <div class="faq-a-inner">Yes! I offer post-launch support and maintenance for all websites I build. Whether it's adding new pages, updating content, fixing issues, or expanding features — I'm available to keep your site running smoothly. Just reach out whenever you need changes made.</div>
-        </div>
+        <button class="faq-q" onclick="toggleFaq(this)" aria-expanded="false">Can you maintain or update my website after it's built?<span class="faq-icon" aria-hidden="true">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes! We offer post-launch support and maintenance for all websites we build. Whether it's adding new pages, updating content, fixing issues, or expanding features — we're available to keep your site running smoothly. Just reach out whenever you need changes made.</div></div>
       </div>
-
     </div>
   </section>
 
   <!-- CONTACT -->
   <section class="section contact-inline" id="contact" aria-labelledby="contact-heading">
     <div class="contact-inline-grid">
-
-      <!-- LEFT -->
       <div>
         <p class="eyebrow">Get In Touch</p>
         <h2 id="contact-heading">Let's Build<br><em>Something Great</em></h2>
-        <p class="body-text" style="margin-bottom:0;">Have a project in mind? Whether it's a quick question or a detailed brief — I'd love to hear from you. Choose the best way to reach me below.</p>
-
+        <p class="body-text" style="margin-bottom:0;">Have a project in mind? Whether it's a quick question or a detailed brief — we'd love to hear from you. Choose the best way to reach us below.</p>
         <div class="reach-grid">
-          <a href="https://wa.me/+2347012182419" target="_blank" rel="noopener noreferrer" class="reach-btn">
-            <span class="rb-icon">WA</span>
-            <span class="rb-text"><span>WhatsApp</span><span class="rb-label">Chat directly</span></span>
-          </a>
-          <a href="https://instagram.com/_hilltopvisuals" target="_blank" rel="noopener noreferrer" class="reach-btn">
-            <span class="rb-icon">IG</span>
-            <span class="rb-text"><span>Instagram</span><span class="rb-label">DM me</span></span>
-          </a>
-          <a href="https://tiktok.com/@hilltop.visuals" target="_blank" rel="noopener noreferrer" class="reach-btn">
-            <span class="rb-icon">TT</span>
-            <span class="rb-text"><span>TikTok</span><span class="rb-label">Follow &amp; message</span></span>
-          </a>
-          <a href="https://www.facebook.com/share/1C88Tai5y7/" target="_blank" rel="noopener noreferrer" class="reach-btn">
-            <span class="rb-icon">FB</span>
-            <span class="rb-text"><span>Facebook</span><span class="rb-label">Message page</span></span>
-          </a>
-          <a href="tel:+2348150391686" class="reach-btn rb-call">
-            <span class="rb-icon">↗</span>
-            <span class="rb-text"><span>Call Me</span><span class="rb-label">+234 815 039 1686 &nbsp;·&nbsp; Available 24hrs</span></span>
-          </a>
+          <a href="https://wa.me/+2347012182419" target="_blank" rel="noopener noreferrer" class="reach-btn"><span class="rb-icon">WA</span><span class="rb-text"><span>WhatsApp</span><span class="rb-label">Chat directly</span></span></a>
+          <a href="https://instagram.com/_hilltopvisuals" target="_blank" rel="noopener noreferrer" class="reach-btn"><span class="rb-icon">IG</span><span class="rb-text"><span>Instagram</span><span class="rb-label">DM us</span></span></a>
+          <a href="https://tiktok.com/@hilltop.visuals" target="_blank" rel="noopener noreferrer" class="reach-btn"><span class="rb-icon">TT</span><span class="rb-text"><span>TikTok</span><span class="rb-label">Follow &amp; message</span></span></a>
+          <a href="https://www.facebook.com/share/1C88Tai5y7/" target="_blank" rel="noopener noreferrer" class="reach-btn"><span class="rb-icon">FB</span><span class="rb-text"><span>Facebook</span><span class="rb-label">Message page</span></span></a>
+          <a href="tel:+2348150391686" class="reach-btn rb-call"><span class="rb-icon">↗</span><span class="rb-text"><span>Call Us</span><span class="rb-label">+234 815 039 1686 &nbsp;·&nbsp; Available 24hrs</span></span></a>
         </div>
-
         <address class="addr-block" style="font-style:normal;">
-          <div class="addr-row">
-            <div class="addr-icon">⊕</div>
-            <div class="addr-body"><strong>Location</strong><p>Felele, Lokoja, Kogi State, Nigeria.</p></div>
-          </div>
-          <div class="addr-row">
-            <div class="addr-icon">@</div>
-            <div class="addr-body"><strong>Email</strong><a href="mailto:hilltopvisuals11@gmail.com">hilltopvisuals11@gmail.com</a></div>
-          </div>
-          <div class="addr-row">
-            <div class="addr-icon">◷</div>
-            <div class="addr-body"><strong>Working Hours</strong><p>Sunday – Saturday, 24 hours</p></div>
-          </div>
-          <div class="addr-row">
-            <div class="addr-icon">↺</div>
-            <div class="addr-body"><strong>Response Time</strong><p>Usually within 1 hour</p></div>
-          </div>
+          <div class="addr-row"><div class="addr-icon">⊕</div><div class="addr-body"><strong>Location</strong><p>Felele, Lokoja, Kogi State, Nigeria.</p></div></div>
+          <div class="addr-row"><div class="addr-icon">@</div><div class="addr-body"><strong>Email</strong><a href="mailto:hilltopvisuals11@gmail.com">hilltopvisuals11@gmail.com</a></div></div>
+          <div class="addr-row"><div class="addr-icon">◷</div><div class="addr-body"><strong>Working Hours</strong><p>Sunday – Saturday, 24 hours</p></div></div>
+          <div class="addr-row"><div class="addr-icon">↺</div><div class="addr-body"><strong>Response Time</strong><p>Usually within 1 hour</p></div></div>
         </address>
       </div>
-
-      <!-- RIGHT — FORM -->
       <div class="cf-card">
         <h3>Send a <em>Message</em></h3>
-        <p class="cf-sub">Fill out the form and I'll get back to you shortly.</p>
+        <p class="cf-sub">Fill out the form and we'll get back to you shortly.</p>
         <div class="cf-row">
           <div class="cf-group"><label for="cfName">Your Name *</label><input type="text" id="cfName" name="name" placeholder="John Doe" autocomplete="name" required></div>
           <div class="cf-group"><label for="cfPhone">WhatsApp / Phone *</label><input type="tel" id="cfPhone" name="phone" placeholder="+234 XXX XXX XXXX" autocomplete="tel" required></div>
@@ -404,12 +300,11 @@
             <option>Other</option>
           </select>
         </div>
-        <div class="cf-group"><label for="cfMessage">Your Message *</label><textarea id="cfMessage" name="message" placeholder="Tell me about your project — what you need, timeline, budget, etc." required></textarea></div>
+        <div class="cf-group"><label for="cfMessage">Your Message *</label><textarea id="cfMessage" name="message" placeholder="Tell us about your project — what you need, timeline, budget, etc." required></textarea></div>
         <button class="submit-btn" id="submitBtn" onclick="submitContactForm()" type="button">Send Message →</button>
-        <div class="form-success" id="formSuccess" role="alert" style="display:none;">✓ Message sent! I'll be in touch with you shortly.</div>
-        <div class="form-error"   id="formError"   role="alert" style="display:none;">Something went wrong. Please try again or reach out via WhatsApp.</div>
+        <div class="form-success" id="formSuccess" role="alert" style="display:none;">✓ Message sent! We'll be in touch with you shortly.</div>
+        <div class="form-error" id="formError" role="alert" style="display:none;">Something went wrong. Please try again or reach out via WhatsApp.</div>
       </div>
-
     </div>
   </section>
 
@@ -417,7 +312,7 @@
   <div class="cta-band">
     <div class="cta-band-inner">
       <h2>Ready to build something<br><em>amazing together? 🚀</em></h2>
-      <p>I'm currently available for new projects — let's create something you'll be proud of.</p>
+      <p>We're currently available for new projects — let's create something you'll be proud of.</p>
       <a href="#contact" class="btn-white">Start a Project →</a>
     </div>
   </div>
@@ -429,6 +324,7 @@
       <p class="footer-tagline">Graphic Design · Web Development · Brand Identity</p>
       <nav class="footer-links" aria-label="Footer navigation">
         <a href="index.html">Home</a>
+        <a href="#team">Team</a>
         <a href="portfolio.html">Portfolio</a>
         <a href="#faq">FAQ</a>
         <a href="#contact">Contact</a>
@@ -443,11 +339,14 @@
     </div>
   </footer>
 
+
   <!-- FIREBASE -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, query, orderBy, limit, getDocs, addDoc, serverTimestamp }
-      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import {
+      initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
+      collection, query, orderBy, limit, getDocs, addDoc, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD2cEISpqe9ZQfjU7KUvEmC07CHFr-ecbo",
@@ -457,177 +356,207 @@
       messagingSenderId: "5059891736",
       appId: "1:5059891736:web:ab7138aefc7ed4dfd4296d"
     };
-
     const app = initializeApp(firebaseConfig);
-    const db  = getFirestore(app);
 
-    // ── Load featured projects ────────────────────────────────
-    const MAX_FEAT_RETRIES = 3;
-    const FEAT_RETRY_MS    = 3500;
-    let   featRetryCount   = 0;
-    let   featRetryTimer   = null;
-
-    function showFeatLoader(msg) {
-      const grid = document.getElementById('featuredWork');
-      if (!grid) return;
-      grid.innerHTML = `
-        <div class="work-placeholder">
-          <div class="wp-inner">
-            <div style="width:30px;height:30px;border:3px solid #ddd;border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px;" aria-hidden="true"></div>
-            <p style="color:var(--mid);font-size:0.9rem;">${msg}</p>
-          </div>
-        </div>`;
+    // Enable offline persistence
+    let db;
+    try {
+      db = initializeFirestore(app, {
+        localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+      });
+    } catch(e) {
+      const { getFirestore } = await import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js");
+      db = getFirestore(app);
     }
 
+    // localStorage cache — 5 min TTL, top 3 featured only
+    const FEAT_CACHE_KEY = 'hv_featured_v1';
+    const FEAT_CACHE_TTL = 5 * 60 * 1000;
+    const MAX_FEAT_RETRIES = 3, FEAT_RETRY_MS = 4000;
+    let featRetryCount = 0, featRetryTimer = null;
+
+    function readFeatCache() {
+      try {
+        const raw = localStorage.getItem(FEAT_CACHE_KEY);
+        if (!raw) return null;
+        const { ts, data } = JSON.parse(raw);
+        return (Date.now() - ts > FEAT_CACHE_TTL) ? null : data;
+      } catch { return null; }
+    }
+    function writeFeatCache(data) {
+      try { localStorage.setItem(FEAT_CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch {}
+    }
+
+    function showFeatLoader(msg) {
+      const grid = document.getElementById('featuredWork'); if (!grid) return;
+      grid.innerHTML = `<div class="work-placeholder"><div class="wp-inner"><div style="width:30px;height:30px;border:3px solid #ddd;border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px;" aria-hidden="true"></div><p style="color:var(--mid);font-size:0.9rem;">${msg}</p></div></div>`;
+    }
     function showFeatError() {
+      const grid = document.getElementById('featuredWork'); if (!grid) return;
+      grid.innerHTML = `<div class="work-placeholder"><div class="wp-inner" style="max-width:380px;"><div style="font-size:2rem;margin-bottom:12px;">📡</div><p style="font-weight:600;color:var(--ink);margin-bottom:8px;">Connection Unstable</p><p style="color:var(--mid);font-size:0.88rem;line-height:1.6;margin-bottom:20px;">Projects couldn't load. Please check your connection and try again.</p><button onclick="window.__hvFeatReload()" style="background:var(--accent);color:#fff;border:none;padding:11px 26px;border-radius:50px;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:inherit;">↺ Reload</button><p style="font-size:0.76rem;color:var(--mid);margin-top:10px;">Or <a href="portfolio.html" style="color:var(--accent);">view the full portfolio →</a></p></div></div>`;
+    }
+
+    function renderFeatured(projects) {
       const grid = document.getElementById('featuredWork');
-      if (!grid) return;
-      grid.innerHTML = `
-        <div class="work-placeholder">
-          <div class="wp-inner" style="max-width:380px;">
-            <div style="font-size:2rem;margin-bottom:12px;" aria-hidden="true">📡</div>
-            <p style="font-weight:600;color:var(--ink);margin-bottom:8px;">Connection Unstable</p>
-            <p style="color:var(--mid);font-size:0.88rem;line-height:1.6;margin-bottom:20px;">Projects couldn't load. Please check your internet connection and try again.</p>
-            <button onclick="window.__hvFeatReload()" style="background:var(--accent);color:#fff;border:none;padding:11px 26px;border-radius:50px;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:inherit;">↺ &nbsp;Reload</button>
-            <p style="font-size:0.76rem;color:var(--mid);margin-top:10px;">Or <a href="portfolio.html" style="color:var(--accent);">view the full portfolio →</a></p>
-          </div>
-        </div>`;
+      if (!projects.length) {
+        grid.innerHTML = `<div class="work-placeholder"><div class="wp-inner"><p>Projects will appear here once added.</p><a href="portfolio.html" class="btn-primary" style="margin-top:20px;font-size:0.88rem;padding:10px 22px;">Browse Full Portfolio →</a></div></div>`;
+        return;
+      }
+      grid.innerHTML = projects.map((p,i) => `<div class="work-card reveal" style="transition-delay:${i*0.1}s" role="listitem"><div class="work-img">${p.image ? `<img src="${p.image}" alt="${p.title} — ${p.category||'Design'} by Hilltop Visuals" loading="lazy">` : `<div class="work-no-img">✦</div>`}<div class="work-overlay"><a href="${p.link||'portfolio.html'}" target="_blank" rel="noopener noreferrer" class="work-view-btn">View Project ↗</a></div></div><div class="work-info"><span class="work-cat">${p.category||'Design'}</span><h3>${p.title}</h3>${p.description?`<p>${p.description.substring(0,100)}${p.description.length>100?'…':''}</p>`:''}</div></div>`).join('');
+      attachReveal();
+    }
+
+    async function fetchFeatured() {
+      try {
+        const snap = await getDocs(query(collection(db,'projects'), orderBy('createdAt','desc'), limit(3)));
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      } catch {
+        const snap = await getDocs(query(collection(db,'projects'), limit(3)));
+        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      }
+    }
+
+    async function loadFeatured() {
+      const cached = readFeatCache();
+
+      if (cached && cached.length > 0) {
+        renderFeatured(cached);
+        // Background refresh — silent
+        fetchFeatured().then(fresh => {
+          writeFeatCache(fresh);
+          const changed = JSON.stringify(fresh.map(p=>p.id)) !== JSON.stringify(cached.map(p=>p.id));
+          if (changed) renderFeatured(fresh);
+        }).catch(() => {});
+      } else {
+        showFeatLoader('Loading projects…');
+        try {
+          const projects = await fetchFeatured();
+          writeFeatCache(projects);
+          renderFeatured(projects);
+        } catch(e) {
+          if (featRetryCount < MAX_FEAT_RETRIES) {
+            featRetryCount++;
+            showFeatLoader(`Retrying… (${featRetryCount}/${MAX_FEAT_RETRIES})`);
+            featRetryTimer = setTimeout(loadFeatured, FEAT_RETRY_MS);
+          } else {
+            showFeatError();
+          }
+        }
+      }
     }
 
     window.__hvFeatReload = function() {
-      featRetryCount = 0;
-      clearTimeout(featRetryTimer);
+      featRetryCount = 0; clearTimeout(featRetryTimer);
+      try { localStorage.removeItem(FEAT_CACHE_KEY); } catch {}
       loadFeatured();
     };
 
-    async function loadFeatured() {
-      const grid = document.getElementById('featuredWork');
-      if (featRetryCount === 0) showFeatLoader('Loading projects…');
-      else showFeatLoader(`Retrying… (${featRetryCount}/${MAX_FEAT_RETRIES})`);
-
-      try {
-        let snap;
-        try {
-          snap = await getDocs(query(collection(db,'projects'), orderBy('createdAt','desc'), limit(3)));
-        } catch {
-          snap = await getDocs(query(collection(db,'projects'), limit(3)));
-        }
-        featRetryCount = 0;
-        clearTimeout(featRetryTimer);
-        const projects = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-        if (!projects.length) {
-          grid.innerHTML = `
-            <div class="work-placeholder">
-              <div class="wp-inner">
-                <p>Projects will appear here once added.</p>
-                <a href="portfolio.html" class="btn-primary" style="margin-top:20px;font-size:0.88rem;padding:10px 22px;">Browse Full Portfolio →</a>
-              </div>
-            </div>`;
-          return;
-        }
-        grid.innerHTML = projects.map((p,i) => `
-          <div class="work-card reveal" style="transition-delay:${i*0.1}s" role="listitem">
-            <div class="work-img">
-              ${p.image ? `<img src="${p.image}" alt="${p.title} — ${p.category || 'Design'} by Hilltop Visuals" loading="lazy">` : `<div class="work-no-img" aria-hidden="true">✦</div>`}
-              <div class="work-overlay">
-                <a href="${p.link || 'portfolio.html'}" target="_blank" rel="noopener noreferrer" class="work-view-btn">View Project ↗</a>
-              </div>
-            </div>
-            <div class="work-info">
-              <span class="work-cat">${p.category || 'Design'}</span>
-              <h3>${p.title}</h3>
-              ${p.description ? `<p>${p.description.substring(0,100)}${p.description.length > 100 ? '…' : ''}</p>` : ''}
-            </div>
-          </div>
-        `).join('');
-        attachReveal();
-      } catch(e) {
-        console.warn('Featured load error (attempt ' + (featRetryCount + 1) + '):', e.message);
-        if (featRetryCount < MAX_FEAT_RETRIES) {
-          featRetryCount++;
-          featRetryTimer = setTimeout(loadFeatured, FEAT_RETRY_MS);
-        } else {
-          showFeatError();
-        }
-      }
-    }
     loadFeatured();
 
-    // ── Contact form ──────────────────────────────────────────
     window.submitContactForm = async function() {
-      const name    = document.getElementById('cfName').value.trim();
-      const phone   = document.getElementById('cfPhone').value.trim();
-      const email   = document.getElementById('cfEmail').value.trim();
-      const service = document.getElementById('cfService').value;
-      const message = document.getElementById('cfMessage').value.trim();
-      if (!name || !phone || !message) { alert('Please fill in Name, Phone and Message.'); return; }
-      const btn = document.getElementById('submitBtn');
-      btn.textContent = 'Sending…'; btn.disabled = true;
-      document.getElementById('formSuccess').style.display = 'none';
-      document.getElementById('formError').style.display   = 'none';
+      const name=document.getElementById('cfName').value.trim(), phone=document.getElementById('cfPhone').value.trim(),
+            email=document.getElementById('cfEmail').value.trim(), service=document.getElementById('cfService').value,
+            message=document.getElementById('cfMessage').value.trim();
+      if (!name||!phone||!message) { alert('Please fill in Name, Phone and Message.'); return; }
+      const btn=document.getElementById('submitBtn');
+      btn.textContent='Sending…'; btn.disabled=true;
+      document.getElementById('formSuccess').style.display='none';
+      document.getElementById('formError').style.display='none';
       try {
-        await addDoc(collection(db,'messages'), { name, phone, email, service, message, createdAt: serverTimestamp(), read: false });
-        btn.style.display = 'none';
-        document.getElementById('formSuccess').style.display = 'block';
+        await addDoc(collection(db,'messages'),{name,phone,email,service,message,createdAt:serverTimestamp(),read:false});
+        btn.style.display='none'; document.getElementById('formSuccess').style.display='block';
       } catch(e) {
-        console.error(e);
-        btn.textContent = 'Send Message →'; btn.disabled = false;
-        document.getElementById('formError').style.display = 'block';
+        btn.textContent='Send Message →'; btn.disabled=false; document.getElementById('formError').style.display='block';
       }
     };
-
     function attachReveal() {
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-      }, { threshold: 0.1 });
+      const obs = new IntersectionObserver(entries => { entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:0.1});
       document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
     }
     attachReveal();
   </script>
 
   <script>
-    // Auto-update copyright year
     document.getElementById('copyrightYear').textContent = new Date().getFullYear();
-
-    // Navbar scroll state
     window.addEventListener('scroll', () => {
       document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 60);
     });
-
-    // Mobile nav toggle
-    function toggleNav() {
-      const links = document.getElementById('navLinks');
-      const btn   = document.querySelector('.hamburger');
-      const open  = links.classList.toggle('open');
-      btn.setAttribute('aria-expanded', String(open));
-    }
-
-    // Close mobile nav on link click
-    document.querySelectorAll('.nav-links a').forEach(a => {
+    function toggleNav() { document.getElementById('navLinks').classList.toggle('open'); }
+    document.querySelectorAll('#navLinks a').forEach(a => {
       a.addEventListener('click', () => {
         document.getElementById('navLinks').classList.remove('open');
-        document.querySelector('.hamburger').setAttribute('aria-expanded', 'false');
       });
     });
+    document.addEventListener('click', (e) => {
+      const nav = document.getElementById('navbar');
+      if (!nav.contains(e.target)) {
+        document.getElementById('navLinks').classList.remove('open');
+      }
+    });
 
-    // Reveal on scroll for static elements
+    /* ── Count-up animation ── */
+    function animateCountUp(el, target, suffix, duration) {
+      const numEl = el.querySelector('.ac-num');
+      if (!numEl || el.dataset.animated) return;
+      el.dataset.animated = 'true';
+      const startTime = performance.now();
+      function tick(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out cubic
+        const ease = 1 - Math.pow(1 - progress, 3);
+        const current = Math.round(ease * target);
+        numEl.textContent = current + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+        else numEl.textContent = target + suffix;
+      }
+      requestAnimationFrame(tick);
+    }
+
+    /* ── Year scramble animation ── */
+    function animateYearScramble(el, finalYear, duration) {
+      const numEl = el.querySelector('.ac-num');
+      if (!numEl || el.dataset.animated) return;
+      el.dataset.animated = 'true';
+      const startTime = performance.now();
+      function tick(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        if (progress < 1) {
+          // Show a random 4-digit year that converges on finalYear
+          const randomYear = Math.floor(Math.random() * 9000) + 1000;
+          numEl.textContent = randomYear;
+          requestAnimationFrame(tick);
+        } else {
+          numEl.textContent = finalYear;
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
     const revealObs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.08 });
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          // Trigger count-up for number cards
+          if (e.target.dataset.countup !== undefined) {
+            const target = parseInt(e.target.dataset.target, 10);
+            const suffix = e.target.dataset.suffix || '';
+            animateCountUp(e.target, target, suffix, 1600);
+          }
+          // Trigger year scramble for year card
+          if (e.target.dataset.yearCard !== undefined) {
+            animateYearScramble(e.target, 2024, 1400);
+          }
+        }
+      });
+    },{threshold:0.08});
     document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 
-    // FAQ accordion
     function toggleFaq(btn) {
-      const item   = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(i => {
-        i.classList.remove('open');
-        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
-      });
-      if (!isOpen) {
-        item.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
+      const item=btn.closest('.faq-item'), isOpen=item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => { i.classList.remove('open'); i.querySelector('.faq-q').setAttribute('aria-expanded','false'); });
+      if (!isOpen) { item.classList.add('open'); btn.setAttribute('aria-expanded','true'); }
     }
   </script>
 </body>
