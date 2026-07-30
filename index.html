@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <link rel="dns-prefetch" href="https://firestore.googleapis.com">
   <link rel="dns-prefetch" href="https://images.unsplash.com">
+  <link rel="dns-prefetch" href="https://s.wordpress.com">
   <link rel="preload" as="image" href="https://images.unsplash.com/photo-1558655146-d09347e92766?w=1600&q=80&auto=format&fit=crop" fetchpriority="high">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hilltop Visuals — Creative Design Studio in Lokoja, Nigeria</title>
@@ -209,7 +210,7 @@
   <section class="section work-section" id="work" aria-labelledby="work-heading">
     <p class="eyebrow">Selected Work</p>
     <h2 id="work-heading">A Peek Into<br><em>Our Portfolio</em></h2>
-    <p class="body-text" style="max-width:520px;margin-bottom:0;">A few of our favourite recent projects — head to the full portfolio to see everything.</p>
+    <p class="body-text" style="max-width:520px;margin-bottom:0;">A few of our recent web projects — head to the full portfolio to see everything, including design work.</p>
     <div class="work-grid" id="featuredWork" role="list">
       <div class="work-placeholder">
         <div class="wp-inner">
@@ -369,11 +370,12 @@
       db = getFirestore(app);
     }
 
-    // localStorage cache — 5 min TTL, top 3 featured only
-    const FEAT_CACHE_KEY = 'hv_featured_v1';
+    // localStorage cache — 5 min TTL, top 3 web projects only
+    const FEAT_CACHE_KEY = 'hv_featured_web_v2';
     const FEAT_CACHE_TTL = 5 * 60 * 1000;
     const MAX_FEAT_RETRIES = 3, FEAT_RETRY_MS = 4000;
     let featRetryCount = 0, featRetryTimer = null;
+    const HOME_CATEGORY = 'Web Design'; // only this category shows on the homepage
 
     function readFeatCache() {
       try {
@@ -391,28 +393,37 @@
       const grid = document.getElementById('featuredWork'); if (!grid) return;
       grid.innerHTML = `<div class="work-placeholder"><div class="wp-inner"><div style="width:30px;height:30px;border:3px solid #ddd;border-top-color:var(--accent);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px;" aria-hidden="true"></div><p style="color:var(--mid);font-size:0.9rem;">${msg}</p></div></div>`;
     }
-    function showFeatError() {
+    function showFeatError(reason) {
       const grid = document.getElementById('featuredWork'); if (!grid) return;
-      grid.innerHTML = `<div class="work-placeholder"><div class="wp-inner" style="max-width:380px;"><div style="font-size:2rem;margin-bottom:12px;">📡</div><p style="font-weight:600;color:var(--ink);margin-bottom:8px;">Connection Unstable</p><p style="color:var(--mid);font-size:0.88rem;line-height:1.6;margin-bottom:20px;">Projects couldn't load. Please check your connection and try again.</p><button onclick="window.__hvFeatReload()" style="background:var(--accent);color:#fff;border:none;padding:11px 26px;border-radius:50px;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:inherit;">↺ Reload</button><p style="font-size:0.76rem;color:var(--mid);margin-top:10px;">Or <a href="portfolio.html" style="color:var(--accent);">view the full portfolio →</a></p></div></div>`;
+      const msg = reason === 'offline'
+        ? "You're offline. Please check your connection and try again."
+        : "Projects couldn't load right now. This is usually a temporary connection issue.";
+      grid.innerHTML = `<div class="work-placeholder"><div class="wp-inner" style="max-width:380px;"><div style="font-size:2rem;margin-bottom:12px;">📡</div><p style="font-weight:600;color:var(--ink);margin-bottom:8px;">${reason === 'offline' ? 'No Connection' : 'Connection Unstable'}</p><p style="color:var(--mid);font-size:0.88rem;line-height:1.6;margin-bottom:20px;">${msg}</p><button onclick="window.__hvFeatReload()" style="background:var(--accent);color:#fff;border:none;padding:11px 26px;border-radius:50px;font-weight:600;font-size:0.88rem;cursor:pointer;font-family:inherit;">↺ Reload</button><p style="font-size:0.76rem;color:var(--mid);margin-top:10px;">Or <a href="portfolio.html" style="color:var(--accent);">view the full portfolio →</a></p></div></div>`;
     }
 
     function renderFeatured(projects) {
       const grid = document.getElementById('featuredWork');
       if (!projects.length) {
-        grid.innerHTML = `<div class="work-placeholder"><div class="wp-inner"><p>Projects will appear here once added.</p><a href="portfolio.html" class="btn-primary" style="margin-top:20px;font-size:0.88rem;padding:10px 22px;">Browse Full Portfolio →</a></div></div>`;
+        grid.innerHTML = `<div class="work-placeholder"><div class="wp-inner"><p>Web projects will appear here once added.</p><a href="portfolio.html" class="btn-primary" style="margin-top:20px;font-size:0.88rem;padding:10px 22px;">Browse Full Portfolio →</a></div></div>`;
         return;
       }
-      grid.innerHTML = projects.map((p,i) => `<div class="work-card reveal" style="transition-delay:${i*0.1}s" role="listitem"><div class="work-img">${p.image ? `<img src="${p.image}" alt="${p.title} — ${p.category||'Design'} by Hilltop Visuals" loading="lazy">` : `<div class="work-no-img">✦</div>`}<div class="work-overlay"><a href="${p.link||'portfolio.html'}" target="_blank" rel="noopener noreferrer" class="work-view-btn">View Project ↗</a></div></div><div class="work-info"><span class="work-cat">${p.category||'Design'}</span><h3>${p.title}</h3>${p.description?`<p>${p.description.substring(0,100)}${p.description.length>100?'…':''}</p>`:''}</div></div>`).join('');
+      grid.innerHTML = projects.map((p,i) => `<div class="work-card reveal" style="transition-delay:${i*0.1}s" role="listitem"><div class="work-img">${p.image ? `<img src="${p.image}" alt="${p.title} — ${p.category||'Design'} by Hilltop Visuals" loading="lazy" decoding="async" onerror="this.closest('.work-img').innerHTML='<div class=&quot;work-no-img&quot;>✦<span style=&quot;display:block;font-size:0.7rem;margin-top:6px;color:var(--mid);&quot;>Image unavailable</span></div>'">` : `<div class="work-no-img">✦</div>`}<div class="work-overlay"><a href="${p.link||'portfolio.html'}" target="_blank" rel="noopener noreferrer" class="work-view-btn">View Project ↗</a></div></div><div class="work-info"><span class="work-cat">${p.category||'Design'}</span><h3>${p.title}</h3>${p.description?`<p>${p.description.substring(0,100)}${p.description.length>100?'…':''}</p>`:''}</div></div>`).join('');
       attachReveal();
     }
 
+    // Fetch a slightly larger recent batch ordered by createdAt (single-field
+    // index, no composite index needed), then filter to web projects only —
+    // keeps this fast without requiring a Firestore composite index.
     async function fetchFeatured() {
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+        throw Object.assign(new Error('offline'), { code: 'offline' });
+      }
       try {
-        const snap = await getDocs(query(collection(db,'projects'), orderBy('createdAt','desc'), limit(3)));
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const snap = await getDocs(query(collection(db,'projects'), orderBy('createdAt','desc'), limit(15)));
+        return snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.category === HOME_CATEGORY).slice(0,3);
       } catch {
-        const snap = await getDocs(query(collection(db,'projects'), limit(3)));
-        return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+        const snap = await getDocs(query(collection(db,'projects'), limit(30)));
+        return snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(p => p.category === HOME_CATEGORY).slice(0,3);
       }
     }
 
@@ -434,7 +445,9 @@
           writeFeatCache(projects);
           renderFeatured(projects);
         } catch(e) {
-          if (featRetryCount < MAX_FEAT_RETRIES) {
+          if (e?.code === 'offline') {
+            showFeatError('offline');
+          } else if (featRetryCount < MAX_FEAT_RETRIES) {
             featRetryCount++;
             showFeatLoader(`Retrying… (${featRetryCount}/${MAX_FEAT_RETRIES})`);
             featRetryTimer = setTimeout(loadFeatured, FEAT_RETRY_MS);

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <link rel="dns-prefetch" href="https://firestore.googleapis.com">
   <link rel="dns-prefetch" href="https://images.unsplash.com">
+  <link rel="dns-prefetch" href="https://s.wordpress.com">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio — Hilltop Visuals | Graphic Design & Web Development Work</title>
   <meta name="description" content="Browse the creative portfolio of Hilltop Visuals — featuring graphic design, brand identity, web development, UI/UX, print design, and social media graphics projects from Lokoja, Nigeria.">
@@ -136,12 +137,13 @@
       grid.innerHTML = `<div class="loader-wrap"><div class="spinner"></div><p style="color:var(--mid);">${msg}</p></div>`;
     }
 
-    function showConnectionError() {
+    function showConnectionError(reason) {
+      const offline = reason === 'offline';
       grid.innerHTML = `
         <div class="conn-error">
           <div class="conn-error-icon">📡</div>
-          <h3>Connection Unstable</h3>
-          <p>Projects couldn't load. Check your connection and tap reload.</p>
+          <h3>${offline ? 'No Connection' : 'Connection Unstable'}</h3>
+          <p>${offline ? "You're offline right now. Reconnect and tap reload to see projects." : "Projects couldn't load — this is usually a temporary connection issue."}</p>
           <button class="conn-reload-btn" onclick="window.__hvReload()">↺ &nbsp;Reload Projects</button>
           <p class="retry-note">If it keeps failing, check your network and try again.</p>
         </div>`;
@@ -164,6 +166,9 @@
 
     // ── Fetch from Firestore ──
     async function fetchFromFirestore() {
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+        throw Object.assign(new Error('offline'), { code: 'offline' });
+      }
       try {
         const snap = await getDocs(query(collection(db, 'projects'), orderBy('createdAt', 'desc')));
         const data = snap.docs.map(d => ({ id: d.id, ...d.data() }));
@@ -206,7 +211,9 @@
           allProjects = await fetchFromFirestore();
           renderProjects();
         } catch (e) {
-          if (retryCount < MAX_AUTO_RETRIES) {
+          if (e?.code === 'offline') {
+            showConnectionError('offline');
+          } else if (retryCount < MAX_AUTO_RETRIES) {
             retryCount++;
             showLoader(`Retrying… (${retryCount}/${MAX_AUTO_RETRIES})`);
             retryTimer = setTimeout(loadProjects, RETRY_DELAY_MS);
@@ -244,7 +251,7 @@
         <div class="p-card reveal" style="transition-delay:${i * 0.06}s">
           <div class="p-img">
             ${p.image
-              ? `<img src="${p.image}" alt="${escHtml(p.title)}" loading="lazy">`
+              ? `<img src="${p.image}" alt="${escHtml(p.title)}" loading="lazy" decoding="async" onerror="this.closest('.p-img').innerHTML='<div class=&quot;p-no-img&quot;>✦<span style=&quot;display:block;font-size:0.7rem;margin-top:6px;&quot;>Image unavailable</span></div>'">`
               : `<div class="p-no-img">✦</div>`}
             <div class="p-overlay">
               <a href="${p.link || '#'}" ${p.link ? 'target="_blank"' : ''} class="p-view-btn">View Project ↗</a>

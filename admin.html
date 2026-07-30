@@ -138,11 +138,18 @@
             <option>Other</option>
           </select>
         </div>
-        <div class="m-group"><label>Project Link</label><input type="url" id="mLink" placeholder="https://..."></div>
+        <div class="m-group">
+          <label>Project Link</label>
+          <div style="display:flex;gap:8px;">
+            <input type="url" id="mLink" placeholder="https://..." style="flex:1;">
+            <button type="button" id="fetchShotBtn" onclick="fetchScreenshotFromLink()" style="white-space:nowrap;padding:0 14px;border-radius:8px;border:1px solid var(--accent);background:transparent;color:var(--accent);font-weight:600;font-size:0.82rem;cursor:pointer;">Fetch image</button>
+          </div>
+        </div>
       </div>
       <div class="m-group"><label>Description</label><textarea id="mDesc" placeholder="Brief description of the project..."></textarea></div>
       <div class="m-group">
         <label>Project Image</label>
+        <p style="font-size:0.78rem;color:var(--muted,#777);margin:0 0 8px;">Click "Fetch image" above to auto-grab a live screenshot of the link, or upload your own below.</p>
         <label class="img-upload-label" for="mImageFile">
           <span style="font-weight:700;color:var(--accent);">[ IMG ]</span>
           <span id="imgUploadText">Click to upload image</span>
@@ -494,6 +501,43 @@
         reader.readAsDataURL(file);
       });
     }
+
+    // ── Auto screenshot from link ───────────────────────────────────────
+    // Uses WordPress's free "mshots" screenshot service — no API key, no cost.
+    // We store just the URL string (not base64), so it never hits Firestore's
+    // size limits. First load can take a few seconds to render server-side;
+    // if it looks blank/placeholder at first, click Fetch image again.
+    window.fetchScreenshotFromLink = function() {
+      const linkInput = document.getElementById('mLink');
+      let url = linkInput.value.trim();
+      if (!url) { alert('Enter a project link first.'); return; }
+      if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+      try { new URL(url); } catch { alert('That link doesn\'t look valid.'); return; }
+      linkInput.value = url;
+
+      const btn = document.getElementById('fetchShotBtn');
+      const label = document.getElementById('imgUploadText');
+      const prev = document.getElementById('imgPreview');
+
+      btn.disabled = true; btn.textContent = 'Fetching…';
+      const shotUrl = `https://s.wordpress.com/mshots/v1/${encodeURIComponent(url)}?w=1200&h=900`;
+
+      // Bust cache with a fresh request each click so retries actually re-render
+      const img = new Image();
+      img.onload = () => {
+        document.getElementById('mImage').value = shotUrl;
+        prev.src = shotUrl; prev.style.display = 'block';
+        label.textContent = 'Screenshot fetched from link ✓ (click again to retry if it looks blank)';
+        label.style.color = '';
+        btn.disabled = false; btn.textContent = 'Fetch image';
+      };
+      img.onerror = () => {
+        label.textContent = 'Could not fetch screenshot — try again or upload manually.';
+        label.style.color = '#DC2626';
+        btn.disabled = false; btn.textContent = 'Fetch image';
+      };
+      img.src = shotUrl;
+    };
 
     window.handleImageUpload = async function(input) {
       const file = input.files[0]; if (!file) return;
