@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile — login-with-others</title>
+<style>
+  :root{
+    --bg:#0f1115;--card:#171a21;--line:#262b35;--text:#eef0f3;--muted:#8b93a1;
+    --accent:#4f7cff;--accent-ink:#ffffff;--radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;
+    justify-content:center;padding:20px;}
+  .card{width:100%;max-width:380px;background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:28px 24px;text-align:center;}
+  .avatar{width:72px;height:72px;border-radius:50%;background:var(--accent);color:var(--accent-ink);
+    display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;
+    margin:0 auto 16px;object-fit:cover;}
+  h1{font-size:1.1rem;margin:0 0 4px;}
+  .email{color:var(--muted);font-size:0.85rem;margin:0 0 20px;}
+  .row{display:flex;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line);
+    font-size:0.82rem;}
+  .row span:first-child{color:var(--muted);}
+  button.signout{width:100%;margin-top:22px;padding:11px 0;background:transparent;color:var(--text);
+    border:1px solid var(--line);border-radius:8px;font-size:0.87rem;cursor:pointer;}
+  .loading{color:var(--muted);font-size:0.85rem;}
+</style>
+</head>
+<body>
+
+<div class="card" id="card">
+  <p class="loading">Loading your profile…</p>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDUXASCxAqcoJS43V8HFiyDPZknWUDM0Rk",
+  authDomain: "login-with-others.firebaseapp.com",
+  projectId: "login-with-others",
+  storageBucket: "login-with-others.firebasestorage.app",
+  messagingSenderId: "421772407076",
+  appId: "1:421772407076:web:118d0dfe19675f0e2f03b1"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const card = document.getElementById("card");
+
+onAuthStateChanged(auth, async (user) => {
+  if(!user){
+    window.location.href = "auth.html";
+    return;
+  }
+
+  // For email/password users, confirm the code step was actually completed
+  const isGoogle = user.providerData.some(p => p.providerId === "google.com");
+  if(!isGoogle){
+    const snap = await getDoc(doc(db, "users", user.uid));
+    if(!snap.exists() || !snap.data().verified){
+      window.location.href = "auth.html";
+      return;
+    }
+  }
+
+  const name = user.displayName || user.email.split("@")[0];
+  const initial = name.charAt(0).toUpperCase();
+
+  card.innerHTML = `
+    ${user.photoURL
+      ? `<img class="avatar" src="${user.photoURL}" alt="">`
+      : `<div class="avatar">${initial}</div>`}
+    <h1>${name}</h1>
+    <p class="email">${user.email}</p>
+    <div class="row"><span>Signed in with</span><span>${isGoogle ? "Google" : "Email"}</span></div>
+    <div class="row"><span>Email verified</span><span>Yes</span></div>
+    <div class="row"><span>User ID</span><span>${user.uid.slice(0,8)}…</span></div>
+    <button class="signout" id="signOutBtn">Sign out</button>
+  `;
+  document.getElementById("signOutBtn").onclick = async () => {
+    await signOut(auth);
+    window.location.href = "auth.html";
+  };
+});
+</script>
+</body>
+</html>
