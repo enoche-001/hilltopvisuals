@@ -194,12 +194,12 @@
       from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyD2cEISpqe9ZQfjU7KUvEmC07CHFr-ecbo",
-      authDomain: "hilltop-visuals.firebaseapp.com",
-      projectId: "hilltop-visuals",
-      storageBucket: "hilltop-visuals.firebasestorage.app",
-      messagingSenderId: "5059891736",
-      appId: "1:5059891736:web:ab7138aefc7ed4dfd4296d"
+      apiKey: "AIzaSyDipiNZds42F8O-_ckdQlIkM1fI9Pi4-oU",
+      authDomain: "hilltop-visuals-database.firebaseapp.com",
+      projectId: "hilltop-visuals-database",
+      storageBucket: "hilltop-visuals-database.firebasestorage.app",
+      messagingSenderId: "34929198276",
+      appId: "1:34929198276:web:30822b647f6800b9e17591"
     };
 
     const app  = initializeApp(firebaseConfig);
@@ -463,9 +463,14 @@
     };
 
     // ── Image compression ─────────────────────────────────────────────────
-    // Firestore has a 1MB document limit. Base64 images bloat fast.
-    // We compress & resize to max 800px wide, JPEG quality 0.75 — keeps
-    // images well under 300KB so Firestore never rejects the document.
+    // Firestore has a 1MB document limit, so the image string must stay under
+    // MAX_CHARS. Instead of fixed low quality, we start HIGH (large size, high
+    // quality, WebP when supported) and only step down as far as needed to fit.
+    // Result: every image keeps the best quality that can still be saved.
+    const MAX_CHARS = 820_000;           // safe budget inside the 1MB doc limit
+    const SIZE_STEPS = [1600, 1400, 1200, 1000, 800, 640];   // max px (longest side)
+    const QUALITY_STEPS = [0.92, 0.86, 0.80, 0.74, 0.68, 0.60];
+
     function compressImage(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -474,27 +479,32 @@
           const img = new Image();
           img.onerror = () => reject(new Error('Could not decode image'));
           img.onload = function() {
-            const MAX_W = 800, MAX_H = 800;
-            let { width, height } = img;
-            // Scale down if needed
-            if (width > MAX_W || height > MAX_H) {
-              const ratio = Math.min(MAX_W / width, MAX_H / height);
-              width  = Math.round(width  * ratio);
-              height = Math.round(height * ratio);
-            }
-            const canvas = document.createElement('canvas');
-            canvas.width = width; canvas.height = height;
-            canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+            // WebP gives ~30% smaller files than JPEG at the same quality
+            const probe = document.createElement('canvas'); probe.width = probe.height = 1;
+            const mime = probe.toDataURL('image/webp').startsWith('data:image/webp')
+              ? 'image/webp' : 'image/jpeg';
 
-            // Try quality 0.75 first; if still > 700KB drop to 0.5
-            let b64 = canvas.toDataURL('image/jpeg', 0.75);
-            if (b64.length > 700_000) {
-              b64 = canvas.toDataURL('image/jpeg', 0.5);
+            let best = null;
+            for (const maxSide of SIZE_STEPS) {
+              let { width, height } = img;
+              const ratio = Math.min(1, maxSide / Math.max(width, height)); // never upscale
+              width = Math.round(width * ratio); height = Math.round(height * ratio);
+
+              const canvas = document.createElement('canvas');
+              canvas.width = width; canvas.height = height;
+              const ctx = canvas.getContext('2d');
+              ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, width, height); // transparent PNGs → white, not black
+              ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
+              ctx.drawImage(img, 0, 0, width, height);
+
+              for (const q of QUALITY_STEPS) {
+                const b64 = canvas.toDataURL(mime, q);
+                best = b64;
+                if (b64.length <= MAX_CHARS) return resolve(b64);   // first one that fits = best quality
+              }
+              // even lowest quality too big at this size → try a smaller size
             }
-            if (b64.length > 900_000) {
-              b64 = canvas.toDataURL('image/jpeg', 0.35);
-            }
-            resolve(b64);
+            resolve(best); // smallest attempt; save handler will warn if still too big
           };
           img.src = e.target.result;
         };
@@ -553,7 +563,7 @@
 
         // Show compressed size so you know it's safe
         const kb = Math.round(b64.length * 0.75 / 1024);
-        label.textContent = `${file.name} — ${kb} KB (compressed)`;
+        label.textContent = `${file.name} — ${kb} KB (best quality that fits)`;
 
         if (kb > 800) {
           label.textContent += ' ⚠ Still large — may fail. Use a smaller image.';
@@ -578,7 +588,7 @@
       if (!title) { alert('Project title is required.'); return; }
 
       // Hard-stop if image is still too large for Firestore (>900KB base64)
-      if (image && image.length > 900_000) {
+      if (image && image.length > 900_000) {  // matches MAX_CHARS budget + headroom
         alert('Image is too large (' + Math.round(image.length/1024) + ' KB). Please use a smaller or lower-resolution image.');
         return;
       }
